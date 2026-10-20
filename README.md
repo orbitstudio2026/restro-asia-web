@@ -13,6 +13,8 @@ npm run dev
 
 Build for production with `npm run build` (output in `dist/`).
 
+**Live preview:** https://orbitstudio2026.github.io/restro-asia-web/ — rebuild with `npm run build:pages` and publish `dist/` to the `gh-pages` branch.
+
 ## What's inside
 
 - **Ramen showcase** (`src/components/RamenShowcase.tsx`) — pinned scroll scene; the background morphs per ramen, bowls rotate, ingredients float at parallax depths.
@@ -31,3 +33,5 @@ Build for production with `npm run build` (output in `dist/`).
 ## Claude Code skills
 
 `.claude/skills/` contains GSAP skills (MIT), impeccable (Apache-2.0) and ui-ux-pro-max (MIT); see `.claude/skills/THIRD_PARTY_LICENSES.md`.
+The taste skill (design review) is not bundled; install it with `npx skills add Leonxlnx/taste-skill` (pinned in `skills-lock.json`).
+The Story text animation is the 21st.dev "Text Reveal (Mask)" component by soralabs (`src/components/ui/text-reveal-mask.tsx`).

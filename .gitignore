@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 vendor
+.taste-skill
+.agents
+.claude/skills/design-taste-frontend

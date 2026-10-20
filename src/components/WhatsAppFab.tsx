@@ -12,7 +12,7 @@ export function WhatsAppFab() {
       <a href={waLink(msg)} target="_blank" rel="noopener" aria-label="Chat on WhatsApp" className="group fixed bottom-6 right-6 z-40 hidden h-16 w-16 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_14px_30px_-8px_rgba(37,211,102,.6)] transition-transform duration-500 ease-spring hover:scale-110 md:grid">
         <span aria-hidden className="absolute inset-0 rounded-full bg-[#25D366] [animation:pulse-ring_2.2s_ease-out_infinite]" />
         <span className="relative"><Icon /></span>
-        <span className="label pointer-events-none absolute right-[calc(100%+12px)] whitespace-nowrap rounded-full bg-ink px-4 py-2.5 text-cream opacity-0 transition-all duration-300 group-hover:opacity-100">Chat with us</span>
+        <span className="label pointer-events-none absolute right-[calc(100%+12px)] whitespace-nowrap rounded-full bg-ink px-4 py-2.5 text-cream opacity-0 transition-opacity duration-300 group-hover:opacity-100">Chat with us</span>
       </a>
       <nav aria-label="Quick actions" className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 overflow-hidden rounded-full bg-ink/90 text-cream shadow-2xl ring-1 ring-cream/10 backdrop-blur-xl md:hidden">
         <a href="tel:+919737020808" className="label py-4 text-center">Call</a>

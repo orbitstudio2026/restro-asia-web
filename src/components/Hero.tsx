@@ -1,10 +1,12 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { reduced } from '../lib/motion'
 import { Magnetic } from './Magnetic'
 import { waLink } from './Nav'
 import { MENU_PDF } from '../data/menu'
 import { scrollToId } from '../hooks/useLenis'
+import { asset } from '../lib/asset'
 
 const split = (s: string) => s.split('').map((c, i) => <span key={i} className="ch inline-block will-change-transform">{c === ' ' ? ' ' : c}</span>)
 
@@ -12,6 +14,7 @@ export function Hero({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null)
   useGSAP(() => {
     if (!ready) return
+    if (reduced()) return
     const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
     tl.from('.ch', { yPercent: 115, rotate: 6, duration: 1.2, stagger: 0.022 })
       .from('.hero-fade', { y: 24, autoAlpha: 0, duration: 1, stagger: 0.08 }, '-=0.9')
@@ -43,10 +46,10 @@ export function Hero({ ready }: { ready: boolean }) {
         </div>
         <div className="relative mx-auto w-full max-w-[520px]">
           <div className="hero-arch arch aspect-[4/5] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,.6)]" data-cursor="Ramen">
-            <img src="/gen/hero-ramen.webp" alt="Steaming vegetarian ramen with chopsticks lifting noodles" className="h-[115%] w-full object-cover" fetchPriority="high" />
+            <img src={asset('gen/hero-ramen.webp')} alt="Steaming vegetarian ramen with chopsticks lifting noodles" className="h-[115%] w-full object-cover" fetchPriority="high" />
           </div>
-          <div className="hero-float absolute -left-10 bottom-10 w-32 md:w-40"><img src="/gen/menu-soups.webp" alt="" className="aspect-square rounded-full object-cover ring-4 ring-lacquer" /></div>
-          <div className="hero-float absolute -right-6 top-16 w-24 md:w-32"><img src="/gen/menu-sushi.webp" alt="" className="aspect-square rounded-full object-cover ring-4 ring-lacquer" /></div>
+          <div className="hero-float absolute -left-10 bottom-10 w-32 md:w-40"><img src={asset('gen/menu-soups.webp')} alt="" className="aspect-square rounded-full object-cover ring-4 ring-lacquer" /></div>
+          <div className="hero-float absolute -right-6 top-16 w-24 md:w-32"><img src={asset('gen/menu-sushi.webp')} alt="" className="aspect-square rounded-full object-cover ring-4 ring-lacquer" /></div>
           <div className="hero-float absolute -bottom-6 right-6 h-32 w-32">
             <svg viewBox="0 0 100 100" className="h-full w-full [animation:spin_18s_linear_infinite]" aria-hidden>
               <defs><path id="circ" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0" /></defs>

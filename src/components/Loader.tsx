@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { Logo, Mark } from './Lantern'
+import { Logo } from './Lantern'
 
 export function Loader({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null)
@@ -9,8 +9,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const counter = { v: 0 }
     const tl = gsap.timeline({ onComplete: () => { root.current!.style.display = 'none' } })
-    tl.from('.ld-mark', { clipPath: 'inset(100% 0 0 0)', y: 20, duration: reduce ? 0.01 : 1.2, ease: 'expo.out' }, 0)
-      .from('.ld-logo', { autoAlpha: 0, y: 16, duration: reduce ? 0.01 : 0.9, ease: 'expo.out' }, 0.35)
+    tl.from('.ld-logo', { clipPath: 'inset(0 0 100% 0)', y: 24, duration: reduce ? 0.01 : 1.2, ease: 'expo.out' }, 0)
     tl.to(counter, { v: 100, duration: reduce ? 0.01 : 1.8, ease: 'power2.inOut', delay: 0, onUpdate: () => { root.current!.querySelector('.count')!.textContent = String(Math.round(counter.v)).padStart(3, '0') } })
       .to('.ld-inner', { autoAlpha: 0, y: -20, duration: 0.4 })
       .add(onDone)
@@ -23,8 +22,7 @@ export function Loader({ onDone }: { onDone: () => void }) {
       <div className="ld-r absolute inset-y-0 right-0 w-1/2 bg-lacquer" />
       <div className="ld-inner absolute inset-0 grid place-items-center">
         <div className="flex flex-col items-center gap-6">
-          <div className="ld-mark w-24 md:w-28"><Mark className="w-full" /></div>
-          <div className="ld-logo w-56 md:w-72"><Logo className="w-full" /></div>
+          <div className="ld-logo w-64 md:w-80"><Logo className="w-full" /></div>
           <span className="count label text-gold/80">000</span>
         </div>
       </div>

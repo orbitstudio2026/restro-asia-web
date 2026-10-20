@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 export type Dish = {
   name: string
   price: number
@@ -8,11 +9,11 @@ export type Dish = {
 export type Category = { id: string; label: string; note?: string; img: string; dishes: Dish[] }
 
 export const WHATSAPP = '919737020808'
-export const MENU_PDF = '/Restro-Asia-Menu-2026.pdf'
+export const MENU_PDF = asset('Restro-Asia-Menu-2026.pdf')
 
 export const categories: Category[] = [
   {
-    id: 'ramen', label: 'Ramen', img: '/gen/menu-ramen.webp',
+    id: 'ramen', label: 'Ramen', img: asset('gen/menu-ramen.webp'),
     note: 'Authentic ramens are made from vegetable & mushroom broth — Jain not available.',
     dishes: [
       { name: 'Miso Ramen', price: 460, desc: 'Savory miso broth with noodles, shiitake, corn, and a kick of chili oil.' },
@@ -29,7 +30,7 @@ export const categories: Category[] = [
     ],
   },
   {
-    id: 'sushi', label: 'Sushi', img: '/gen/menu-sushi.webp',
+    id: 'sushi', label: 'Sushi', img: asset('gen/menu-sushi.webp'),
     note: 'Kindly check with staff about Jain for sushi.',
     dishes: [
       { name: 'Avocado Yuki Role', price: 599, desc: 'Seasoned rice, carrot, cucumber, avocado and paneer in nori, finished with cheese sauce, chili seasoning, soy and wasabi.' },
@@ -38,7 +39,7 @@ export const categories: Category[] = [
     ],
   },
   {
-    id: 'bowls', label: 'Bowls', img: '/gen/menu-bowls.webp',
+    id: 'bowls', label: 'Bowls', img: asset('gen/menu-bowls.webp'),
     dishes: [
       { name: 'Korean Bibimbap', price: 460, desc: 'Sautéed vegetables, gochujang sauce and sesame, with a side of kimchi.' },
       { name: 'Pad Thai Bowl', price: 460, jain: true, desc: 'Flat noodles tossed on wok with broccoli salad and sesame cottage cheese.' },
@@ -51,7 +52,7 @@ export const categories: Category[] = [
     ],
   },
   {
-    id: 'noodles', label: 'Noodles & Rice', img: '/gen/menu-noodles.webp',
+    id: 'noodles', label: 'Noodles & Rice', img: asset('gen/menu-noodles.webp'),
     dishes: [
       { name: 'Pad Thai Noodles', price: 399, desc: 'Flat steamed noodles tossed on wok in peanut and chilli sauce.' },
       { name: 'Thai Paneer Noodles', price: 345, jain: true, desc: 'Boiled noodles, exotic veggies and cottage cheese in spicy Thai sauce.' },
@@ -66,7 +67,7 @@ export const categories: Category[] = [
     ],
   },
   {
-    id: 'starters', label: 'Starters', img: '/gen/menu-starters.webp',
+    id: 'starters', label: 'Starters', img: asset('gen/menu-starters.webp'),
     dishes: [
       { name: 'Yasai Renkon Delight', price: 499, desc: 'Crunchy lotus stem and water chestnut tossed with French beans, onions, spring onions and capsicums in chef’s oriental sauce.' },
       { name: 'Tori No Su Paneer', price: 400, jain: true, desc: 'Stir-fried Asian noodles rolled with tender paneer cubes in special Asian sauces.' },
@@ -80,7 +81,7 @@ export const categories: Category[] = [
     ],
   },
   {
-    id: 'soups', label: 'Soups & Salad', img: '/gen/menu-soups.webp',
+    id: 'soups', label: 'Soups & Salad', img: asset('gen/menu-soups.webp'),
     dishes: [
       { name: 'Curry Dumpling Noodle Soup', price: 285, desc: 'Coconut milk curry mixed with dumpling and love.' },
       { name: 'Veg Burmese Khao Suey Soup', price: 350, desc: 'Chunked exotic veggies served with some condiments.' },
@@ -92,7 +93,7 @@ export const categories: Category[] = [
     ],
   },
   {
-    id: 'drinks', label: 'Mocktails & Meals', img: '/gen/menu-mocktails.webp',
+    id: 'drinks', label: 'Mocktails & Meals', img: asset('gen/menu-mocktails.webp'),
     note: 'Chinese Meals available till 7 pm, weekdays only. Cold drinks ₹100 (Thums Up, Coke/Diet Coke, Sprite, Fanta).',
     dishes: [
       { name: 'Classic Sour Rita', price: 299 }, { name: 'Cranberry Sour Rita', price: 329 }, { name: 'Prism Fizz', price: 359 },
@@ -104,8 +105,8 @@ export const categories: Category[] = [
 ]
 
 export const ramens = [
-  { id: 'miso', name: 'Miso Ramen', price: 460, mood: 'Savory miso broth, shiitake, sweet corn and a kick of chili oil.', img: '/gen/ramen-miso.webp', from: '#5C1519', to: '#C9282D', glow: '#D9A441' },
-  { id: 'kimchi', name: 'Kimchi Ramen', price: 460, mood: 'Gochujang heat, tangy kimchi, a bold and zesty broth.', img: '/gen/ramen-kimchi.webp', from: '#3A0B0E', to: '#E0452B', glow: '#FDEBAD' },
-  { id: 'kurume', name: 'Kurume Coconut Ramen', price: 460, mood: 'Silky coconut broth, mushroom paneer and gentle spice.', img: '/gen/ramen-kurume.webp', from: '#3B2A12', to: '#D9A441', glow: '#FFF8E1' },
-  { id: 'laksa', name: 'Veg Laksa Ramen', price: 649, mood: 'Our most indulgent bowl — tangy, spicy, finished with momo nori.', img: '/gen/ramen-laksa.webp', from: '#1B0F0D', to: '#8A2B15', glow: '#C9282D' },
+  { id: 'miso', name: 'Miso Ramen', price: 460, mood: 'Savory miso broth, shiitake, sweet corn and a kick of chili oil.', img: asset('gen/ramen-miso.webp'), from: '#3E0C0F', to: '#B3262B', glow: '#E7A04A' },
+  { id: 'kimchi', name: 'Kimchi Ramen', price: 460, mood: 'Gochujang heat, tangy kimchi, a bold and zesty broth.', img: asset('gen/ramen-kimchi.webp'), from: '#06190F', to: '#2F6B4E', glow: '#7FB08A' },
+  { id: 'kurume', name: 'Kurume Coconut Ramen', price: 460, mood: 'Silky coconut broth, mushroom paneer and gentle spice.', img: asset('gen/ramen-kurume.webp'), from: '#3A2606', to: '#C8902C', glow: '#FFE7A8' },
+  { id: 'laksa', name: 'Veg Laksa Ramen', price: 649, mood: 'Our most indulgent bowl — tangy, spicy, finished with momo nori.', img: asset('gen/ramen-laksa.webp'), from: '#070505', to: '#3B2C29', glow: '#8C5A3C' },
 ]

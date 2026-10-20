@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 export function Lantern({ className = '', draw = false }: { className?: string; draw?: boolean }) {
   return (
     <svg viewBox="0 0 120 200" className={className} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -20,8 +21,8 @@ export function Wordmark({ className = '' }: { className?: string }) {
 type LogoTone = 'cream' | 'ink' | 'vermilion'
 /** Official Restro~Asia lockup (from "logo Restro Asia.png"), trimmed & recoloured in public/brand. */
 export function Logo({ tone = 'cream', className = '', alt = 'Restro~Asia — Flavours of Indo Chinese & Beyond' }: { tone?: LogoTone; className?: string; alt?: string }) {
-  return <img src={`/brand/logo-${tone}.webp`} alt={alt} width={900} height={428} className={`h-auto ${className}`} decoding="async" />
+  return <img src={asset(`brand/logo-${tone}.webp`)} alt={alt} width={900} height={428} className={`h-auto ${className}`} decoding="async" />
 }
 export function Mark({ tone = 'cream', className = '' }: { tone?: 'cream' | 'vermilion'; className?: string }) {
-  return <img src={`/brand/mark-${tone}.webp`} alt="" aria-hidden width={360} height={499} className={`h-auto ${className}`} decoding="async" />
+  return <img src={asset(`brand/mark-${tone}.webp`)} alt="" aria-hidden width={360} height={499} className={`h-auto ${className}`} decoding="async" />
 }

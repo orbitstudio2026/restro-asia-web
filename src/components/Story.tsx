@@ -1,13 +1,14 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { reduced } from '../lib/motion'
+import { MaskedTextReveal } from './ui/text-reveal-mask'
 
-const text = 'Oriental food is not just food — it is an experience of many cultures. We balance traditional and modern tastes, delightful veggies and delicious sauces, with one motto: serve you better, with quality food and love. Restro~Asia is not just a restaurant. It’s an emotion.'
 
 export function Story() {
   const root = useRef<HTMLElement>(null)
   useGSAP(() => {
-    gsap.fromTo('.sw', { opacity: 0.14 }, { opacity: 1, stagger: 0.05, ease: 'none', scrollTrigger: { trigger: '.story-p', start: 'top 80%', end: 'bottom 45%', scrub: 0.6 } })
+    if (reduced()) return
     gsap.from('.stat', { y: 40, autoAlpha: 0, stagger: 0.1, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '.stats', start: 'top 85%' } })
     gsap.utils.toArray<HTMLElement>('.num').forEach((el) => {
       const o = { v: 0 }
@@ -15,13 +16,20 @@ export function Story() {
     })
   }, { scope: root })
   return (
-    <section id="story" ref={root} className="relative bg-paper bg-[url(/gen/bg-paper.webp)] bg-cover bg-center py-[clamp(96px,14vw,180px)]">
+    <section id="story" ref={root} className="relative bg-paper bg-cover bg-center py-[clamp(72px,14vw,180px)]" style={{ backgroundImage: `url(${asset('gen/bg-paper.webp')})` }}>
       <div className="wrap grid gap-12 lg:grid-cols-[200px_1fr]">
         <p className="label text-vermilion">Our story</p>
         <div>
-          <p className="story-p max-w-[22ch] font-display text-[clamp(2rem,4.4vw,4.2rem)] leading-[1.08] tracking-[-.02em] md:max-w-[26ch]">
-            {text.split(' ').map((w, i) => <span key={i} className={`sw ${/emotion|experience/.test(w) ? 'italic text-vermilion' : ''}`}>{w} </span>)}
-          </p>
+          {/* 21st.dev Text Reveal (Mask): words rise out of a line mask as the paragraph enters view */}
+          <MaskedTextReveal
+            splitBy="words"
+            stagger={0.035}
+            duration={0.9}
+            viewportMargin="0px 0px -15% 0px"
+            className="max-w-[24ch] font-display text-[clamp(1.6rem,4.4vw,4.2rem)] leading-[1.18] tracking-[-.02em] md:max-w-[26ch] [&_strong]:font-semibold [&_strong]:italic [&_strong]:text-vermilion"
+          >
+            Oriental food is not just food — it is an <strong>experience</strong> of many cultures. We balance traditional and modern tastes, delightful veggies and delicious sauces, with one motto: serve you better, with quality food and love. Restro~Asia is not just a restaurant. It’s an <strong>emotion.</strong>
+          </MaskedTextReveal>
           <StatsRow />
         </div>
       </div>
@@ -30,6 +38,7 @@ export function Story() {
 }
 
 import { categories } from '../data/menu'
+import { asset } from '../lib/asset'
 function StatsRow() {
   const all = categories.flatMap((c) => c.dishes)
   const stats = [

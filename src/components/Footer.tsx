@@ -17,7 +17,7 @@ export function Footer() {
         <div className="mt-16 flex justify-center">
           <Logo className="ft-logo w-[min(78vw,720px)] transition-transform duration-1000 ease-out-expo hover:scale-[1.03]" />
         </div>
-        <div className="mt-8 flex flex-wrap justify-between gap-4 border-t border-cream/15 pt-6 text-xs text-cream/50">
+        <div className="mt-8 flex flex-wrap justify-between gap-4 border-t border-cream/15 pt-6 text-[13px] text-cream/55">
           <span>© {new Date().getFullYear()} Restro~Asia · Flavours of Indo Chinese &amp; Beyond</span>
           <span>Prices inclusive of GST under composition scheme</span>
         </div>

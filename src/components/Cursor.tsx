@@ -27,7 +27,7 @@ export function Cursor() {
   }, [])
   return (
     <div ref={ring} aria-hidden className="ra-cursor pointer-events-none fixed left-0 top-0 z-[90] -ml-3 -mt-3 grid h-6 w-6 place-items-center rounded-full border border-gold/90 mix-blend-normal opacity-0 transition-[width,height,margin,background,opacity] duration-300 [.has-cursor_&]:opacity-100">
-      <span className="label !text-[.6rem] text-ink opacity-0 transition-opacity">{label}</span>
+      <span className="label !text-[.7rem] text-ink opacity-0 transition-opacity">{label}</span>
     </div>
   )
 }
