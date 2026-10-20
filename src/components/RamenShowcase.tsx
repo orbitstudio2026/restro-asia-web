@@ -39,15 +39,18 @@ function Steam() {
 
 /** Floating ingredient line-art + shapes; each drifts at its own depth. */
 // Higgsfield-generated cutouts (public/gen/ing-*.webp); size in px, d = parallax depth
+// x/y are the CENTRE of each item. Positions are clamped (see style below) so an item is always fully on
+// screen, and the scroll move is a small drift that returns, so nothing ever leaves the view.
+// Left-side items sit above the text; right-side items sit above or below the progress list.
+// On mobile the text sits low, so items centred at 40% or lower are hidden there.
 const ingredients = [
-  // items drift upward: left-side ones stay in the top band (never cross the text), and right-side
-  // ones start above the progress list or behind the bowl, so nothing crosses the list either.
-  // On mobile the text sits low, so items starting below 40% are hidden there.
-  { x: '6%', y: '9%', d: 1.2, s: 96, k: 'chilli' }, { x: '30%', y: '5%', d: 0.6, s: 52, k: 'shiitake' },
-  { x: '52%', y: '7%', d: 0.9, s: 66, k: 'chilli' }, { x: '84%', y: '9%', d: 0.8, s: 84, k: 'tofu' },
-  { x: '88%', y: '22%', d: 1.1, s: 62, k: 'shiitake' }, { x: '72%', y: '86%', d: 1.4, s: 118, k: 'bokchoy' },
-  { x: '66%', y: '88%', d: 1.0, s: 90, k: 'corn' }, { x: '47%', y: '80%', d: 0.7, s: 54, k: 'anise' },
+  { x: '8%', y: '17%', d: 1.2, s: 96, k: 'chilli' }, { x: '30%', y: '15%', d: 0.6, s: 56, k: 'shiitake' },
+  { x: '50%', y: '14%', d: 0.9, s: 66, k: 'chilli' }, { x: '86%', y: '17%', d: 0.8, s: 84, k: 'tofu' },
+  { x: '93%', y: '33%', d: 1.1, s: 60, k: 'shiitake' }, { x: '88%', y: '78%', d: 1.4, s: 118, k: 'bokchoy' },
+  { x: '68%', y: '86%', d: 1.0, s: 90, k: 'corn' }, { x: '48%', y: '84%', d: 0.7, s: 54, k: 'anise' },
 ]
+// distance to keep from the screen edge: half the item rotated (√2 ≈ 1.42 → 0.71·size) plus its drift
+const edge = (g: (typeof ingredients)[number]) => Math.round(g.s * 0.71 + 30 * g.d)
 function Ingredient({ k }: { k: string }) {
   return <img src={asset(`gen/ing-${k}.webp`)} alt="" className="h-full w-full object-contain" draggable={false} />
 }
@@ -63,6 +66,7 @@ export function RamenShowcase() {
   useGSAP(() => {
     const steps = n - 1
     const total = steps + 0.6
+    const touch = window.matchMedia('(pointer: coarse)').matches
     gsap.set(ramens.slice(1).map((_, i) => `.rm-t-${i + 1} .rm-l`).join(','), { yPercent: 110 })
     gsap.set(ramens.slice(1).map((_, i) => `.rm-bg-${i + 1}`).join(','), { autoAlpha: 0 })
     // each ramen settles at a rest point; snapping there keeps every bowl fully on screen
@@ -71,14 +75,17 @@ export function RamenShowcase() {
       defaults: { ease: 'none' },
       scrollTrigger: {
         trigger: '.rm-pin', start: 'top top', end: `+=${steps * 90 + 60}%`, pin: true, scrub: 1, anticipatePin: 1,
-        snap: { snapTo: rests, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: 'power2.inOut', directional: true },
+        // snapping fights a thumb on touch screens, so it is desktop-only
+        snap: touch ? undefined : { snapTo: rests, duration: { min: 0.3, max: 0.9 }, delay: 0.08, ease: 'power2.inOut', directional: true },
         onUpdate: (s) => setActive(Math.min(steps, Math.max(0, Math.round(s.progress * total - 0.15)))),
       },
     })
     tl.to('.rm-spin', { rotate: 90, duration: total }, 0)
     gsap.utils.toArray<HTMLElement>('.rm-ing').forEach((el, k) => {
       const d = +el.dataset.d!
-      tl.to(el, { yPercent: -220 * d, rotate: 120 * d * (k % 2 ? 1 : -1), duration: total }, 0)
+      const dir = k % 2 ? 1 : -1
+      // a drift that rises, swings and settles back: at most ~50px from home, so it stays in view
+      tl.to(el, { keyframes: { y: [0, -46 * d, 14 * d, -28 * d, 0], x: [0, 18 * dir * d, -10 * dir * d, 12 * dir * d, 0], rotate: [0, 40 * dir * d, -20 * dir * d, 30 * dir * d, 0], easeEach: 'sine.inOut' }, duration: total }, 0)
     })
     for (let i = 1; i <= steps; i++) {
       const at = i - 0.75
@@ -114,19 +121,20 @@ export function RamenShowcase() {
         <div aria-hidden className="absolute inset-0 opacity-[.07] mix-blend-overlay [background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence baseFrequency=%22.9%22/></filter><rect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22/></svg>')]" />
         <Steam />
         {ingredients.map((g, i) => (
-          <div key={i} className={`rm-ing pointer-events-none absolute z-0 will-change-transform drop-shadow-[0_18px_22px_rgba(0,0,0,.45)] ${parseFloat(g.y) >= 40 ? 'max-lg:hidden' : ''}`} data-d={g.d} style={{ left: g.x, top: g.y, width: g.s, height: g.s }}><Ingredient k={g.k} /></div>
+          <div key={i} className={`rm-ing pointer-events-none absolute z-0 will-change-transform drop-shadow-[0_18px_22px_rgba(0,0,0,.45)] ${parseFloat(g.y) >= 40 ? 'max-lg:hidden' : ''}`} data-d={g.d} style={{ left: `clamp(${edge(g)}px, ${g.x}, calc(100% - ${edge(g)}px))`, top: `clamp(${edge(g) + 76}px, ${g.y}, calc(100% - ${edge(g) + 8}px))`, width: g.s, height: g.s, margin: `${-g.s / 2}px 0 0 ${-g.s / 2}px` }}>
+            <div className="h-full w-full [animation:bob_5s_ease-in-out_infinite]" style={{ animationDelay: `${-i * 0.7}s` }}><Ingredient k={g.k} /></div>
+          </div>
         ))}
 
-        <div className="wrap relative z-10 grid h-full items-center gap-6 pt-20 pb-24 lg:pb-0 lg:grid-cols-[1fr_minmax(0,1.1fr)] xl:grid-cols-[1fr_minmax(0,1.1fr)_auto]">
+        <div className="wrap relative z-10 grid h-full items-center gap-6 pt-20 pb-24 lg:pb-0 lg:grid-cols-[1fr_minmax(0,1.15fr)]">
           {/* text */}
           <div className="relative z-10 order-2 min-h-[230px] lg:order-1 lg:min-h-[320px]">
             <p className="label mb-5 text-cream/70">The signature · Ramen {String(active + 1).padStart(2, '0')}/{String(n).padStart(2, '0')}</p>
             {ramens.map((r, i) => (
               <div key={r.id} className={`rm-t-${i} absolute inset-x-0 top-10`} aria-hidden={i !== active}>
-                <h2 className="-my-2 overflow-hidden py-2 text-[clamp(2.4rem,5vw,4.8rem)] leading-[1.08] font-extrabold"><span className="rm-l block">{r.name}</span></h2>
+                <h2 className="-my-2 overflow-hidden py-2 text-[clamp(2.4rem,5vw,4.8rem)] leading-[1.08]"><span className="rm-l block">{r.name}</span></h2>
                 <div className="mt-4 overflow-hidden"><p className={`rm-l max-w-sm text-cream/80`}>{r.mood}</p></div>
                 <div className="mt-6 flex items-center gap-5 overflow-hidden">
-                  <span className={`rm-l font-display text-4xl text-gold`}>₹{r.price}</span>
                   <span className={`rm-l`}>
                     <Magnetic><a tabIndex={i === active ? 0 : -1} href={waLink(`Hi Restro~Asia! I'd like to order ${r.name}.`)} target="_blank" rel="noopener" className="btn btn-gold !py-3">Order on WhatsApp</a></Magnetic>
                   </span>
@@ -136,7 +144,7 @@ export function RamenShowcase() {
           </div>
 
           {/* bowl */}
-          <div className="order-1 mx-auto w-[min(72vmin,560px)] [perspective:1200px] lg:order-2" data-cursor="Slurp">
+          <div className="order-1 mx-auto w-[min(84vmin,660px)] [perspective:1200px] lg:order-2" data-cursor="Slurp">
             <div className="rm-tilt relative aspect-square">
               <div className="rm-spin absolute inset-0 will-change-transform">
                 {ramens.map((r, i) => (
@@ -149,7 +157,7 @@ export function RamenShowcase() {
           </div>
 
           {/* progress */}
-          <ol className="order-3 hidden flex-col gap-4 xl:flex" aria-label="Ramen showcase progress">
+          <ol className="absolute bottom-10 left-[clamp(20px,4vw,56px)] hidden gap-6 lg:flex" aria-label="Ramen showcase progress">
             {ramens.map((r, i) => (
               <li key={r.id} className={`label flex items-center gap-3 transition-colors duration-500 ${i === active ? 'text-cream' : 'text-cream/40'}`}>
                 <span className={`h-px bg-gold transition-[width] duration-500 ${i === active ? 'w-10' : 'w-4'}`} />{r.name.replace(' Ramen', '')}
@@ -170,10 +178,9 @@ export function RamenShowcase() {
             <div key={t as string}>
               <p className="label mb-4 border-b border-cream/15 pb-4 text-cream/60">{t as string}{t === 'Authentic Japanese' && ' · veg & mushroom broth'}</p>
               {(list as typeof fusion).map((d) => (
-                <a key={d.name} href={waLink(`Hi Restro~Asia! I'd like to order ${d.name}.`)} target="_blank" rel="noopener" data-cursor="Order" className="rm-row group grid grid-cols-[1fr_auto] gap-x-6 border-b border-cream/10 py-5 transition-[padding] duration-500 ease-out-expo hover:pl-3">
-                  <span className="font-display text-xl transition-colors group-hover:text-gold">{d.name}{d.jain && <span className="ml-2 inline-grid h-5 w-5 place-items-center rounded-full bg-matcha align-middle font-label text-[.6rem] text-white" title="Available in Jain">J</span>}</span>
-                  <span className="row-span-2 self-center font-display text-xl text-gold">₹{d.price}</span>
-                  <span className="mt-1 text-[15px] leading-relaxed text-cream/65 md:text-base">{d.desc}</span>
+                <a key={d.name} href={waLink(`Hi Restro~Asia! I'd like to order ${d.name}.`)} target="_blank" rel="noopener" data-cursor="Order" className="rm-row group grid border-b border-cream/10 py-5 transition-[padding] duration-500 ease-out-expo hover:pl-3">
+                  <span className="font-display text-xl tracking-wide transition-colors group-hover:text-gold">{d.name}{d.jain && <span className="ml-2 inline-grid h-5 w-5 place-items-center rounded-full bg-matcha align-middle font-label text-[.6rem] text-white" title="Available in Jain">J</span>}</span>
+                  <span className="mt-1 text-[0.9375rem] leading-relaxed text-cream/65 md:text-base">{d.desc}</span>
                 </a>
               ))}
             </div>

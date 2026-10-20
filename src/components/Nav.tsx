@@ -36,7 +36,7 @@ export function Nav() {
             <Magnetic><a href={MENU_PDF} download className="btn btn-cream !py-3 !px-5">Menu PDF ↓</a></Magnetic>
             <Magnetic><a href={waLink('Hi Restro~Asia! I would like to reserve a table.')} target="_blank" rel="noopener" className="btn btn-primary !py-3 !px-5">Reserve</a></Magnetic>
           </div>
-          <button onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Open menu" className="ml-auto grid h-12 w-12 place-items-center rounded-full border border-cream/30 lg:hidden md:ml-0">
+          <button onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} data-burger className="ml-auto grid h-12 w-12 place-items-center rounded-full border border-cream/30 lg:hidden md:ml-0">
             <span className={`block h-px w-5 bg-cream transition-transform ${open ? 'translate-y-[3px] rotate-45' : '-translate-y-[3px]'}`} />
             <span className={`absolute block h-px w-5 bg-cream transition-transform ${open ? '-rotate-45' : 'translate-y-[3px]'}`} />
           </button>

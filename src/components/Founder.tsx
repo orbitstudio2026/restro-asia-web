@@ -31,7 +31,7 @@ export function Founder() {
         </div>
         <div className="fd-txt">
           <p className="label text-vermilion">Meet the founder</p>
-          <blockquote className="mt-6 font-display text-[clamp(2rem,4vw,3.6rem)] italic leading-[1.1]">
+          <blockquote className="mt-6 text-[clamp(1.5rem,3vw,2.6rem)] font-semibold leading-[1.25] tracking-[-.01em]">
             “{ph(founder.quote, 'Founder quote goes here — one line about why they started Restro~Asia.')}”
           </blockquote>
           {founder.story && <p className="mt-8 max-w-xl text-ink-60">{founder.story}</p>}

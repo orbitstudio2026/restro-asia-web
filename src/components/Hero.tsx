@@ -33,9 +33,9 @@ export function Hero({ ready }: { ready: boolean }) {
       <div className="wrap relative grid min-h-[100svh] items-center gap-12 pt-32 pb-16 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <p className="hero-fade label mb-8 text-gold">Surat · Flavours of Indo Chinese &amp; Beyond</p>
-          <h1 className="text-[clamp(3.4rem,8.6vw,8.5rem)] font-extrabold leading-[.92] tracking-[-.035em]" aria-label="Making food tasty.">
+          <h1 className="text-[clamp(3.2rem,8.6vw,8.5rem)] leading-[.98]" aria-label="Making food tasty.">
             <span className="block overflow-hidden pb-2" aria-hidden>{split('Making')}</span>
-            <span className="block overflow-hidden pb-2" aria-hidden>{split('food ')}<em className="font-semibold text-gold">{split('tasty.')}</em></span>
+            <span className="block overflow-hidden pb-2" aria-hidden>{split('food ')}<em className="text-gold">{split('tasty.')}</em></span>
           </h1>
           <p className="hero-fade mt-8 max-w-md text-lg text-cream/75">Wok-fired classics, slow-simmered ramen, sushi and bowls — with Jain options across the menu.</p>
           <div className="hero-fade mt-10 flex flex-wrap gap-4">
@@ -54,7 +54,7 @@ export function Hero({ ready }: { ready: boolean }) {
             <svg viewBox="0 0 100 100" className="h-full w-full [animation:spin_18s_linear_infinite]" aria-hidden>
               <defs><path id="circ" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0" /></defs>
               <circle cx="50" cy="50" r="49" fill="#D9A441" />
-              <text className="fill-ink" style={{ font: '600 8.6px Oswald', letterSpacing: '2.4px' }}><textPath href="#circ">RAMEN · SUSHI · BOWLS · WOK · </textPath></text>
+              <text className="fill-ink" style={{ font: '800 8.2px Manrope', letterSpacing: '2.2px' }}><textPath href="#circ">RAMEN · SUSHI · BOWLS · WOK · </textPath></text>
             </svg>
             <span className="absolute inset-0 grid place-items-center font-display text-2xl text-ink">✦</span>
           </div>

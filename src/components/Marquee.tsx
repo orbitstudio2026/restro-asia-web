@@ -8,7 +8,7 @@ export function Marquee() {
           <div key={k} className="flex">
             {row.map((t, i) => (
               <span key={i} className="flex items-center font-display text-[clamp(2rem,5vw,4.2rem)] leading-none">
-                <span className={i % 2 ? 'italic text-gold' : ''}>{t}</span><span className="mx-[.6em] text-vermilion text-[.5em]">✦</span>
+                <span className={i % 2 ? 'text-gold' : ''}>{t}</span><span className="mx-[.6em] text-vermilion text-[.5em]">✦</span>
               </span>
             ))}
           </div>

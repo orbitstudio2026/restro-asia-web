@@ -4,6 +4,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
+// mobile browsers resize the viewport when the address bar shows/hides; don't re-layout pins for that
+ScrollTrigger.config({ ignoreMobileResize: true })
 
 export let lenis: Lenis | null = null
 

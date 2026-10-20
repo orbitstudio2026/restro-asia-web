@@ -6,7 +6,7 @@ export function Cursor() {
   const ring = useRef<HTMLDivElement>(null)
   const [label, setLabel] = useState('')
   useEffect(() => {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    if (!window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)').matches) return
     const x = gsap.quickTo(ring.current, 'x', { duration: 0.35, ease: 'power3' })
     const y = gsap.quickTo(ring.current, 'y', { duration: 0.35, ease: 'power3' })
     let px = -100, py = -100
@@ -26,8 +26,8 @@ export function Cursor() {
     return () => { window.removeEventListener('mousemove', move); window.removeEventListener('scroll', scroll); document.documentElement.classList.remove('has-cursor') }
   }, [])
   return (
-    <div ref={ring} aria-hidden className="ra-cursor pointer-events-none fixed left-0 top-0 z-[90] -ml-3 -mt-3 grid h-6 w-6 place-items-center rounded-full border border-gold/90 mix-blend-normal opacity-0 transition-[width,height,margin,background,opacity] duration-300 [.has-cursor_&]:opacity-100">
-      <span className="label !text-[.7rem] text-ink opacity-0 transition-opacity">{label}</span>
+    <div ref={ring} aria-hidden className="ra-cursor pointer-events-none fixed max-lg:hidden left-0 top-0 z-[90] -ml-3 -mt-3 grid h-6 w-6 place-items-center rounded-full border border-gold/90 mix-blend-normal opacity-0 transition-[width,height,margin,background,opacity] duration-300 [.has-cursor_&]:opacity-100">
+      <span className="label !text-[.6rem] !tracking-[.08em] text-ink opacity-0 transition-opacity">{label}</span>
     </div>
   )
 }

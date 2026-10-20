@@ -26,7 +26,7 @@ export function Story() {
             stagger={0.035}
             duration={0.9}
             viewportMargin="0px 0px -15% 0px"
-            className="max-w-[24ch] font-display text-[clamp(1.6rem,4.4vw,4.2rem)] leading-[1.18] tracking-[-.02em] md:max-w-[26ch] [&_strong]:font-semibold [&_strong]:italic [&_strong]:text-vermilion"
+            className="max-w-[28ch] font-body text-[clamp(1.5rem,3.6vw,3.4rem)] font-semibold leading-[1.22] tracking-[-.02em] md:max-w-[30ch] [&_strong]:font-display [&_strong]:font-normal [&_strong]:text-vermilion"
           >
             Oriental food is not just food — it is an <strong>experience</strong> of many cultures. We balance traditional and modern tastes, delightful veggies and delicious sauces, with one motto: serve you better, with quality food and love. Restro~Asia is not just a restaurant. It’s an <strong>emotion.</strong>
           </MaskedTextReveal>
@@ -50,7 +50,7 @@ function StatsRow() {
     <div className="stats mt-20 grid gap-8 border-t border-ink/15 pt-10 sm:grid-cols-3">
       {stats.map(([n, l]) => (
         <div key={l} className="stat">
-          <span className="num font-display text-6xl font-semibold text-vermilion md:text-7xl" data-to={n}>{n}</span>
+          <span className="num font-body text-6xl font-extrabold tracking-tight text-vermilion md:text-7xl" data-to={n}>{n}</span>
           <p className="mt-2 text-ink-60">{l}</p>
         </div>
       ))}

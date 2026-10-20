@@ -40,7 +40,7 @@ export function Menu() {
             <p className="label text-vermilion">The 2026 menu</p>
             <h2 className="mt-4 text-[clamp(2.6rem,6vw,5.5rem)]">Something for <em className="text-vermilion">every</em> craving.</h2>
           </div>
-          <Magnetic><a href={MENU_PDF} download className="btn btn-primary">Download full menu (PDF, 2.4 MB) <span aria-hidden>↓</span></a></Magnetic>
+          <Magnetic><a href={MENU_PDF} download className="btn btn-primary">Menu &amp; prices (PDF) <span aria-hidden>↓</span></a></Magnetic>
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-y border-ink/10 py-4">
@@ -67,22 +67,20 @@ export function Menu() {
             </div>
           </div>
           <div>
-            {c.note && <p className="mb-6 rounded-2xl bg-cream/70 px-5 py-4 text-[15px] text-ink-60">{c.note}</p>}
+            {c.note && <p className="mb-6 rounded-2xl bg-cream/70 px-5 py-4 text-[0.9375rem] text-ink-60">{c.note}</p>}
             {dishes.length === 0 && <p className="py-10 text-ink-60">No Jain options in this section — please ask our staff.</p>}
             <ul>
               {dishes.map((d) => (
-                <li key={c.id + d.name} className="mn-row group grid cursor-default grid-cols-[1fr_auto] gap-x-8 gap-y-1 border-b border-ink/10 py-6 transition-[padding] duration-500 ease-out-expo hover:pl-4">
+                <li key={c.id + d.name} className="mn-row group grid cursor-default gap-y-1 border-b border-ink/10 py-6 transition-[padding] duration-500 ease-out-expo hover:pl-4">
                   <h4 className="flex flex-wrap items-center gap-2 text-xl transition-colors group-hover:text-vermilion md:text-2xl">
                     {d.name}
                     {d.jain && <span className="inline-grid h-5 w-5 place-items-center rounded-full bg-matcha font-label text-[.7rem] text-white" title="Available in Jain">J</span>}
-                    {d.weekday169 && <span className="label rounded-full border border-vermilion/40 px-3 py-1.5 !text-[.75rem] !tracking-[.08em] text-vermilion">₹169 weekdays till 7 pm</span>}
                   </h4>
-                  <span className="row-span-2 self-center font-display text-xl text-vermilion md:text-2xl">₹{d.price}</span>
-                  {d.desc && <p className="max-w-xl text-[15px] leading-relaxed text-ink-60 md:text-base">{d.desc}</p>}
+                  {d.desc && <p className="max-w-xl text-[0.9375rem] leading-relaxed text-ink-60 md:text-base">{d.desc}</p>}
                 </li>
               ))}
             </ul>
-            <p className="label mt-8 text-ink-60">Prices inclusive of GST (composition scheme) · Please inform staff of allergies</p>
+            <p className="label mt-8 text-ink-60">Prices are in the downloadable menu · Please inform staff of allergies</p>
           </div>
         </div>
       </div>

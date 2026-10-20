@@ -51,7 +51,7 @@ export function Visit() {
 
         <form className="rounded-[28px] bg-cream/[.04] p-8 ring-1 ring-cream/10 md:p-12" onSubmit={(e) => { e.preventDefault(); window.open(waLink(msg), '_blank', 'noopener') }}>
           <p className="font-display text-3xl">Book a table</p>
-          <p className="mt-2 text-[15px] text-cream/65">We’ll open WhatsApp with your request filled in — just hit send.</p>
+          <p className="mt-2 text-[0.9375rem] text-cream/65">We’ll open WhatsApp with your request filled in — just hit send.</p>
           <div className="mt-8 grid gap-x-8 gap-y-2 sm:grid-cols-2">
             <label className="sm:col-span-2"><span className="label text-cream/60">Name</span><input required className={field} value={f.name} onChange={set('name')} placeholder="Your name" autoComplete="name" /></label>
             <label><span className="label text-cream/60">Date</span><input type="date" required className={field} value={f.date} onChange={set('date')} /></label>
@@ -65,12 +65,12 @@ export function Visit() {
             <input type="checkbox" checked={f.jain} onChange={set('jain')} className="h-5 w-5 accent-matcha" />
             <span className="text-cream/80">We need Jain food</span>
           </label>
-          <pre className="mt-8 whitespace-pre-wrap rounded-2xl bg-ink/60 p-5 font-body text-[15px] text-cream/65" aria-live="polite">{msg}</pre>
+          <pre className="mt-8 whitespace-pre-wrap rounded-2xl bg-ink/60 p-5 font-body text-[0.9375rem] text-cream/65" aria-live="polite">{msg}</pre>
           <div className="mt-8 flex flex-wrap items-center gap-5">
             <Magnetic><button type="submit" className="btn btn-primary">Send on WhatsApp <span aria-hidden>→</span></button></Magnetic>
             <a href={MENU_PDF} download className="label text-cream/70 underline decoration-gold underline-offset-8 hover:text-cream">Menu PDF ↓</a>
           </div>
-          <p className="mt-6 text-[13px] text-cream/55">Reservations recommended, not mandatory · Tables held 15 minutes past booking time.</p>
+          <p className="mt-6 text-[0.8125rem] text-cream/55">Reservations recommended, not mandatory · Tables held 15 minutes past booking time.</p>
         </form>
       </div>
     </section>
