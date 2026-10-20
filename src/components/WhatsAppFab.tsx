@@ -17,7 +17,7 @@ export function WhatsAppFab() {
       <nav aria-label="Quick actions" className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-3 overflow-hidden rounded-full bg-ink/90 text-cream shadow-2xl ring-1 ring-cream/10 backdrop-blur-xl md:hidden">
         <a href="tel:+919737020808" className="label py-4 text-center">Call</a>
         <a href={waLink(msg)} target="_blank" rel="noopener" className="label flex items-center justify-center gap-2 bg-[#25D366] py-4 text-white"><Icon />WhatsApp</a>
-        <a href={MENU_PDF} download className="label py-4 text-center">Menu ↓</a>
+        <a href={MENU_PDF} download className="label py-4 text-center">Menu</a>
       </nav>
     </>
   )

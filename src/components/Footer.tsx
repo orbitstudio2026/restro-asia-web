@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex flex-wrap justify-between gap-10">
           <nav className="flex flex-wrap gap-x-8 gap-y-3" aria-label="Footer">
             {links.map(([h, l]) => <a key={h} href={h} onClick={(e) => { e.preventDefault(); scrollToId(h) }} className="label text-cream/70 hover:text-gold">{l}</a>)}
-            <a href={MENU_PDF} download className="label text-gold">Download menu ↓</a>
+            <a href={MENU_PDF} download className="label text-gold">Download menu</a>
           </nav>
           <p className="label text-cream/50">Cash · UPI · Debit accepted</p>
         </div>

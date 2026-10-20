@@ -31,7 +31,7 @@ export function Gallery() {
       <div className="wrap">
         <div className="gl-head mb-14 flex flex-wrap items-end justify-between gap-6">
           <h2 className="text-[clamp(2.6rem,6vw,5.5rem)]">Good food, <em className="text-gold">good mood.</em></h2>
-          <a href="https://www.instagram.com/restroasia_official/" target="_blank" rel="noopener" className="label text-gold underline underline-offset-8">@restroasia_official ↗</a>
+          <a href="https://www.instagram.com/restroasia_official/" target="_blank" rel="noopener" className="label text-gold underline underline-offset-8">@restroasia_official</a>
         </div>
         <div className="grid grid-flow-dense auto-rows-[220px] grid-cols-2 gap-4 md:grid-cols-12 md:auto-rows-[240px]">
           {shots.map(([f, t, cls]) => (

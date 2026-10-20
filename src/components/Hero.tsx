@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { reduced } from '../lib/motion'
@@ -7,11 +7,13 @@ import { waLink } from './Nav'
 import { MENU_PDF } from '../data/menu'
 import { scrollToId } from '../hooks/useLenis'
 import { asset } from '../lib/asset'
+import { MaskButton } from './ui/mask-button'
 
 const split = (s: string) => s.split('').map((c, i) => <span key={i} className="ch inline-block will-change-transform">{c === ' ' ? ' ' : c}</span>)
 
 export function Hero({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null)
+  const [still] = useState(reduced)
   useGSAP(() => {
     if (!ready) return
     if (reduced()) return
@@ -22,7 +24,7 @@ export function Hero({ ready }: { ready: boolean }) {
       .from('.hero-float', { scale: 0, autoAlpha: 0, duration: 1.2, stagger: 0.12, ease: 'back.out(1.6)' }, 0.6)
     // phones: no scroll parallax or bobbing — the photos and badge stay where they land
     if (window.matchMedia('(max-width: 1023px)').matches) return
-    gsap.to('.hero-arch img', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true } })
+    gsap.to('.hero-arch .hero-media', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true } })
     gsap.utils.toArray<HTMLElement>('.hero-float').forEach((el, i) => {
       gsap.to(el, { yPercent: -60 - i * 40, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true } })
       gsap.to(el.firstElementChild, { y: 10, duration: 2.6 + i, yoyo: true, repeat: -1, ease: 'sine.inOut' })
@@ -41,14 +43,20 @@ export function Hero({ ready }: { ready: boolean }) {
           </h1>
           <p className="hero-fade mt-8 max-w-md text-lg text-cream/75">Wok-fired classics, slow-simmered ramen, sushi and bowls — with Jain options across the menu.</p>
           <div className="hero-fade mt-10 flex flex-wrap gap-4">
-            <Magnetic><a href={waLink('Hi Restro~Asia! I would like to reserve a table.')} target="_blank" rel="noopener" className="btn btn-primary">Reserve on WhatsApp <span aria-hidden>→</span></a></Magnetic>
-            <Magnetic><a href="#menu" onClick={(e) => { e.preventDefault(); scrollToId('#menu') }} className="btn btn-ghost text-cream">Explore the menu</a></Magnetic>
+            <Magnetic><MaskButton href={waLink('Hi Restro~Asia! I would like to reserve a table.')} target="_blank" rel="noopener" variant="primary">Reserve on WhatsApp</MaskButton></Magnetic>
+            <Magnetic><MaskButton href="#menu" onClick={(e) => { e.preventDefault(); scrollToId('#menu') }} variant="ghost">Explore the menu</MaskButton></Magnetic>
             <a href={MENU_PDF} download className="hero-fade label self-center text-cream/70 underline decoration-gold underline-offset-8 hover:text-cream">Download menu (PDF)</a>
           </div>
         </div>
         <div className="relative mx-auto w-full max-w-[520px]">
           <div className="hero-arch arch aspect-[4/5] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,.6)]" data-cursor="Ramen">
-            <img src={asset('gen/hero-ramen.webp')} alt="Steaming vegetarian ramen with chopsticks lifting noodles" className="h-[115%] w-full object-cover" fetchPriority="high" />
+            {/* Higgsfield cinemagraph (steam, noodle sway, lantern flicker); the photo is its poster and the reduced-motion fallback */}
+            {still
+              ? <img src={asset('gen/hero-ramen.webp')} alt="Steaming vegetarian ramen with chopsticks lifting noodles" className="hero-media h-[115%] w-full object-cover" fetchPriority="high" />
+              : <video className="hero-media h-[115%] w-full object-cover" poster={asset('gen/hero-ramen.webp')} autoPlay muted loop playsInline preload="auto" aria-label="Steam rising from a vegetarian ramen bowl as chopsticks lift the noodles">
+                  <source src={asset('gen/hero-ramen.webm')} type="video/webm" />
+                  <source src={asset('gen/hero-ramen.mp4')} type="video/mp4" />
+                </video>}
           </div>
           <div className="hero-float absolute -left-10 bottom-10 w-32 md:w-40"><img src={asset('gen/menu-soups.webp')} alt="" className="aspect-square rounded-full object-cover ring-4 ring-lacquer" /></div>
           <div className="hero-float absolute -right-6 top-16 w-24 md:w-32"><img src={asset('gen/menu-sushi.webp')} alt="" className="aspect-square rounded-full object-cover ring-4 ring-lacquer" /></div>

@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react'
 import { reduced } from '../lib/motion'
 import { categories, MENU_PDF } from '../data/menu'
 import { Magnetic } from './Magnetic'
-import { asset } from '../lib/asset'
+import { MaskButton } from './ui/mask-button'
 
 export function Menu() {
   const root = useRef<HTMLElement>(null)
@@ -33,14 +33,14 @@ export function Menu() {
   }, { scope: root })
 
   return (
-    <section id="menu" ref={root} className="relative bg-paper bg-cover bg-center py-[clamp(72px,12vw,170px)]" style={{ backgroundImage: `url(${asset('gen/bg-paper.webp')})` }}>
+    <section id="menu" ref={root} className="relative bg-seigaiha py-[clamp(72px,12vw,170px)]">
       <div className="wrap">
         <div className="mn-head flex flex-wrap items-end justify-between gap-8">
           <div>
             <p className="label text-vermilion">The 2026 menu</p>
             <h2 className="mt-4 text-[clamp(2.6rem,6vw,5.5rem)]">Something for <em className="text-vermilion">every</em> craving.</h2>
           </div>
-          <Magnetic><a href={MENU_PDF} download className="btn btn-primary">Menu &amp; prices (PDF) <span aria-hidden>↓</span></a></Magnetic>
+          <Magnetic><MaskButton href={MENU_PDF} download variant="primary">Menu &amp; prices (PDF)</MaskButton></Magnetic>
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-y border-ink/10 py-4">

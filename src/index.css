@@ -81,3 +81,19 @@ img { display: block; max-width: 100%; }
 @keyframes sway { 50% { transform: rotate(3deg); } }
 @keyframes pulse-ring { 0% { transform: scale(.9); opacity: .6; } 100% { transform: scale(1.8); opacity: 0; } }
 @keyframes marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+/* seigaiha — Japanese wave scales in brand gold; a crisp tiled vector, never stretched */
+.bg-seigaiha { background-color: var(--color-paper); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'><circle cx='0' cy='0' r='24' fill='%23FFF8E1'/><circle cx='0' cy='0' r='24' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='0' cy='0' r='18' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='0' cy='0' r='12' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='0' cy='0' r='6' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='0' r='24' fill='%23FFF8E1'/><circle cx='48' cy='0' r='24' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='0' r='18' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='0' r='12' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='0' r='6' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='24' cy='12.0' r='24' fill='%23FFF8E1'/><circle cx='24' cy='12.0' r='24' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='24' cy='12.0' r='18' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='24' cy='12.0' r='12' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='24' cy='12.0' r='6' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='0' cy='24' r='24' fill='%23FFF8E1'/><circle cx='0' cy='24' r='24' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='0' cy='24' r='18' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='0' cy='24' r='12' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='0' cy='24' r='6' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='24' r='24' fill='%23FFF8E1'/><circle cx='48' cy='24' r='24' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='24' r='18' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='24' r='12' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/><circle cx='48' cy='24' r='6' fill='none' stroke='%23D9A441' stroke-opacity='.2' stroke-width='1'/></svg>"); background-size: 48px 24px; }
+
+/* 21st.dev Mask Button — 23-frame ink-blot sprite. Rest plays "out" (face inks in), hover plays "in" (face lifts away). */
+.mask-btn-face {
+  -webkit-mask-image: var(--mask-img); mask-image: var(--mask-img);
+  -webkit-mask-size: 2300% 100%; mask-size: 2300% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  animation: mask-out .7s steps(22) forwards;
+}
+.mask-btn:hover .mask-btn-face, .mask-btn:focus-visible .mask-btn-face { animation-name: mask-in; }
+.mask-btn-face.is-reverse { animation-name: mask-in; }
+.mask-btn:hover .mask-btn-face.is-reverse, .mask-btn:focus-visible .mask-btn-face.is-reverse { animation-name: mask-out; }
+@keyframes mask-in { from { -webkit-mask-position: 0 0; mask-position: 0 0; } to { -webkit-mask-position: 100% 0; mask-position: 100% 0; } }
+@keyframes mask-out { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }

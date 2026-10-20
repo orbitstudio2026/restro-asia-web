@@ -35,3 +35,5 @@ Build for production with `npm run build` (output in `dist/`).
 `.claude/skills/` contains GSAP skills (MIT), impeccable (Apache-2.0) and ui-ux-pro-max (MIT); see `.claude/skills/THIRD_PARTY_LICENSES.md`.
 The taste skill (design review) is not bundled; install it with `npx skills add Leonxlnx/taste-skill` (pinned in `skills-lock.json`).
 The Story text animation is the 21st.dev "Text Reveal (Mask)" component by soralabs (`src/components/ui/text-reveal-mask.tsx`).
+CTAs use the 21st.dev "Mask Button" by lucasbassetti (`src/components/ui/mask-button.tsx`, sprite in `public/ui/`).
+The hero cinemagraph (`public/gen/hero-ramen.{webm,mp4}`) was generated with Higgsfield (FLUX 3 Video) from the hero still.

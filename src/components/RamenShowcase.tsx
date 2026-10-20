@@ -7,6 +7,7 @@ import { ramens, categories } from '../data/menu'
 import { waLink } from './Nav'
 import { Magnetic } from './Magnetic'
 import { asset } from '../lib/asset'
+import { MaskButton } from './ui/mask-button'
 
 /** Rising steam / ember particles. Pauses when offscreen. */
 function Steam() {
@@ -172,7 +173,7 @@ export function RamenShowcase() {
                 <div className="mt-4 overflow-hidden"><p className={`rm-l max-w-sm text-cream/80`}>{r.mood}</p></div>
                 <div className="mt-6 flex items-center gap-5 overflow-hidden">
                   <span className={`rm-l`}>
-                    <Magnetic><a tabIndex={i === active ? 0 : -1} href={waLink(`Hi Restro~Asia! I'd like to order ${r.name}.`)} target="_blank" rel="noopener" className="btn btn-gold !py-3">Order on WhatsApp</a></Magnetic>
+                    <Magnetic><MaskButton tabIndex={i === active ? 0 : -1} href={waLink(`Hi Restro~Asia! I'd like to order ${r.name}.`)} target="_blank" rel="noopener" variant="primary" size="sm">Order on WhatsApp</MaskButton></Magnetic>
                   </span>
                 </div>
               </div>

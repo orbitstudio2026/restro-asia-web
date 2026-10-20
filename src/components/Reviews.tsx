@@ -41,7 +41,7 @@ export function Reviews() {
         <h2 className="text-[clamp(2.6rem,6vw,5.5rem)]">Guests <em className="text-gold">say</em> it best.</h2>
         <a href={GOOGLE_URL} target="_blank" rel="noopener" className="flex items-center gap-4 rounded-full border border-cream/20 py-2 pr-6 pl-2 transition-colors hover:border-gold">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-gold font-body text-lg font-extrabold text-ink">{GOOGLE_RATING.score}</span>
-          <span><span className="block font-semibold text-cream">★ rated on Google</span><span className="label text-cream/70">{GOOGLE_RATING.count} Google reviews ↗</span></span>
+          <span><span className="block font-semibold text-cream">★ rated on Google</span><span className="label text-cream/70">{GOOGLE_RATING.count} Google reviews</span></span>
         </a>
       </div>
       <div className="rv-rows grid gap-8">

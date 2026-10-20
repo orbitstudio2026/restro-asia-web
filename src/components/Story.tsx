@@ -16,7 +16,7 @@ export function Story() {
     })
   }, { scope: root })
   return (
-    <section id="story" ref={root} className="relative bg-paper bg-cover bg-center py-[clamp(72px,14vw,180px)]" style={{ backgroundImage: `url(${asset('gen/bg-paper.webp')})` }}>
+    <section id="story" ref={root} className="relative bg-seigaiha py-[clamp(72px,14vw,180px)]">
       <div className="wrap grid gap-12 lg:grid-cols-[200px_1fr]">
         <p className="label text-vermilion">Our story</p>
         <div>
@@ -38,7 +38,6 @@ export function Story() {
 }
 
 import { categories } from '../data/menu'
-import { asset } from '../lib/asset'
 function StatsRow() {
   const all = categories.flatMap((c) => c.dishes)
   const stats = [

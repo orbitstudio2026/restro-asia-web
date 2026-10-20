@@ -6,6 +6,7 @@ import { waLink } from './Nav'
 import { Magnetic } from './Magnetic'
 import { MENU_PDF } from '../data/menu'
 import { asset } from '../lib/asset'
+import { MaskButton } from './ui/mask-button'
 
 // Vesu address confirmed on the Google Maps listing.
 const ADDRESS = 'G3 Western Business Park, Opp. S.D. Jain School, Vesu, Surat'
@@ -40,12 +41,12 @@ export function Visit() {
           <p className="mt-4"><a href="tel:+919737020808" className="font-display text-3xl hover:text-gold">+91 97370 20808</a></p>
           <p className="mt-1"><a href="mailto:restroasiaofficial@gmail.com" className="text-cream/70 hover:text-gold">restroasiaofficial@gmail.com</a></p>
           <div className="mt-10 flex flex-wrap gap-3">
-            {channels.map(([l, h]) => <a key={l} href={h} target="_blank" rel="noopener" className="label rounded-full border border-cream/20 px-5 py-3.5 transition-[transform,border-color,color] duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold">{l} ↗</a>)}
+            {channels.map(([l, h]) => <a key={l} href={h} target="_blank" rel="noopener" className="label rounded-full border border-cream/20 px-5 py-3.5 transition-[transform,border-color,color] duration-300 hover:-translate-y-0.5 hover:border-gold hover:text-gold">{l}</a>)}
           </div>
           <div className="mt-12 rounded-[28px] border border-gold/30 p-7">
             <p className="label text-gold">Parties &amp; catering</p>
             <p className="mt-3 text-cream/75">Kitty parties, birthdays and small gatherings, plus outdoor catering. Free delivery within 3 km, subject to availability.</p>
-            <a href={waLink('Hi Restro~Asia! I would like to enquire about a party / catering order.')} target="_blank" rel="noopener" className="label mt-5 inline-block text-gold underline underline-offset-8">Enquire on WhatsApp →</a>
+            <a href={waLink('Hi Restro~Asia! I would like to enquire about a party / catering order.')} target="_blank" rel="noopener" className="label mt-5 inline-block text-gold underline underline-offset-8">Enquire on WhatsApp</a>
           </div>
         </div>
 
@@ -67,8 +68,8 @@ export function Visit() {
           </label>
           <pre className="mt-8 whitespace-pre-wrap rounded-2xl bg-ink/60 p-5 font-body text-[0.9375rem] text-cream/65" aria-live="polite">{msg}</pre>
           <div className="mt-8 flex flex-wrap items-center gap-5">
-            <Magnetic><button type="submit" className="btn btn-primary">Send on WhatsApp <span aria-hidden>→</span></button></Magnetic>
-            <a href={MENU_PDF} download className="label text-cream/70 underline decoration-gold underline-offset-8 hover:text-cream">Menu PDF ↓</a>
+            <Magnetic><MaskButton type="submit" variant="primary">Send on WhatsApp</MaskButton></Magnetic>
+            <a href={MENU_PDF} download className="label text-cream/70 underline decoration-gold underline-offset-8 hover:text-cream">Menu PDF</a>
           </div>
           <p className="mt-6 text-[0.8125rem] text-cream/55">Reservations recommended, not mandatory · Tables held 15 minutes past booking time.</p>
         </form>
