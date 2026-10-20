@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { reduced } from '../lib/motion'
 import { ramens, categories } from '../data/menu'
@@ -43,14 +44,20 @@ function Steam() {
 // screen, and the scroll move is a small drift that returns, so nothing ever leaves the view.
 // Left-side items sit above the text; right-side items sit above or below the progress list.
 // On mobile the text sits low, so items centred at 40% or lower are hidden there.
+// Phones (`m`): smaller, static, scattered around the bowl and the screen edges, clear of the text (≈52–80% down).
 const ingredients = [
-  { x: '8%', y: '17%', d: 1.2, s: 96, k: 'chilli' }, { x: '30%', y: '15%', d: 0.6, s: 56, k: 'shiitake' },
-  { x: '50%', y: '14%', d: 0.9, s: 66, k: 'chilli' }, { x: '86%', y: '17%', d: 0.8, s: 84, k: 'tofu' },
-  { x: '93%', y: '33%', d: 1.1, s: 60, k: 'shiitake' }, { x: '88%', y: '78%', d: 1.4, s: 118, k: 'bokchoy' },
-  { x: '68%', y: '86%', d: 1.0, s: 90, k: 'corn' }, { x: '48%', y: '84%', d: 0.7, s: 54, k: 'anise' },
+  { x: '8%', y: '17%', d: 1.2, s: 96, k: 'chilli', m: { x: '10%', y: '14%', s: 44 } },
+  { x: '30%', y: '15%', d: 0.6, s: 56, k: 'shiitake', m: { x: '90%', y: '13%', s: 32 } },
+  { x: '50%', y: '14%', d: 0.9, s: 66, k: 'chilli', m: { x: '94%', y: '38%', s: 34 } },
+  { x: '86%', y: '17%', d: 0.8, s: 84, k: 'tofu', m: { x: '7%', y: '44%', s: 36 } },
+  { x: '93%', y: '33%', d: 1.1, s: 60, k: 'shiitake', m: { x: '52%', y: '10%', s: 26 } },
+  { x: '88%', y: '78%', d: 1.4, s: 118, k: 'bokchoy', m: { x: '88%', y: '87%', s: 48 } },
+  { x: '68%', y: '86%', d: 1.0, s: 90, k: 'corn', m: { x: '6%', y: '28%', s: 38 } },
+  { x: '48%', y: '84%', d: 0.7, s: 54, k: 'anise', m: { x: '58%', y: '89%', s: 28 } },
 ]
+const MOBILE = '(max-width: 1023px)'
 // distance to keep from the screen edge: half the item rotated (√2 ≈ 1.42 → 0.71·size) plus its drift
-const edge = (g: (typeof ingredients)[number]) => Math.round(g.s * 0.71 + 30 * g.d)
+const edge = (s: number, d: number) => Math.round(s * 0.71 + 30 * d)
 function Ingredient({ k }: { k: string }) {
   return <img src={asset(`gen/ing-${k}.webp`)} alt="" className="h-full w-full object-contain" draggable={false} />
 }
@@ -61,6 +68,7 @@ const authentic = categories[0].dishes.slice(5)
 export function RamenShowcase() {
   const root = useRef<HTMLElement>(null)
   const [active, setActive] = useState(0)
+  const [mobile] = useState(() => typeof window !== 'undefined' && window.matchMedia(MOBILE).matches)
   const n = ramens.length
 
   useGSAP(() => {
@@ -69,6 +77,29 @@ export function RamenShowcase() {
     const touch = window.matchMedia('(pointer: coarse)').matches
     gsap.set(ramens.slice(1).map((_, i) => `.rm-t-${i + 1} .rm-l`).join(','), { yPercent: 110 })
     gsap.set(ramens.slice(1).map((_, i) => `.rm-bg-${i + 1}`).join(','), { autoAlpha: 0 })
+    if (!reduced()) gsap.from('.rm-row', { y: 30, autoAlpha: 0, stagger: 0.05, duration: 0.9, ease: 'expo.out', scrollTrigger: { trigger: '.rm-cols', start: 'top 80%' } })
+
+    if (mobile) {
+      // Phones: a scrubbed timeline freezes half-way when the thumb stops, cutting the text in two.
+      // Here scroll only chooses which bowl is showing; every change is a short, complete animation.
+      let cur = 0
+      const go = (i: number) => {
+        if (i === cur) return
+        const prev = cur, dir = i > prev ? 1 : -1
+        cur = i
+        setActive(i)
+        ramens.forEach((_, j) => gsap.to(`.rm-bg-${j}`, { autoAlpha: j === i ? 1 : 0, duration: 0.7, ease: 'power1.inOut', overwrite: 'auto' }))
+        gsap.to(`.rm-bowl-${prev}`, { scale: 0.85, rotate: -25 * dir, autoAlpha: 0, duration: 0.35, ease: 'power2.in', overwrite: 'auto' })
+        gsap.fromTo(`.rm-bowl-${i}`, { scale: 1.12, rotate: 25 * dir, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.6, delay: 0.12, ease: 'power3.out', overwrite: 'auto' })
+        gsap.to(`.rm-t-${prev} .rm-l`, { yPercent: -110 * dir, duration: 0.3, stagger: 0.03, ease: 'power2.in', overwrite: 'auto' })
+        gsap.fromTo(`.rm-t-${i} .rm-l`, { yPercent: 110 * dir }, { yPercent: 0, duration: 0.5, stagger: 0.05, delay: 0.2, ease: 'power3.out', overwrite: 'auto' })
+      }
+      ScrollTrigger.create({
+        trigger: '.rm-pin', start: 'top top', end: `+=${steps * 80 + 40}%`, pin: true, anticipatePin: 1,
+        onUpdate: (st) => go(Math.min(steps, Math.floor(st.progress * n))),
+      })
+      return
+    }
     // each ramen settles at a rest point; snapping there keeps every bowl fully on screen
     const rests = [0, ...ramens.slice(1).map((_, i) => (i + 1.2) / total), 1]
     const tl = gsap.timeline({
@@ -81,7 +112,7 @@ export function RamenShowcase() {
       },
     })
     tl.to('.rm-spin', { rotate: 90, duration: total }, 0)
-    gsap.utils.toArray<HTMLElement>('.rm-ing').forEach((el, k) => {
+    gsap.utils.toArray<HTMLElement>('.rm-ing').forEach((el, k) => {  // desktop only: phones keep them still
       const d = +el.dataset.d!
       const dir = k % 2 ? 1 : -1
       // a drift that rises, swings and settles back: at most ~50px from home, so it stays in view
@@ -95,7 +126,6 @@ export function RamenShowcase() {
         .to(`.rm-t-${i - 1} .rm-l`, { yPercent: -110, duration: 0.4, stagger: 0.05, ease: 'power2.in' }, at)
         .fromTo(`.rm-t-${i} .rm-l`, { yPercent: 110 }, { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, at + 0.35)
     }
-    if (!reduced()) gsap.from('.rm-row', { y: 30, autoAlpha: 0, stagger: 0.05, duration: 0.9, ease: 'expo.out', scrollTrigger: { trigger: '.rm-cols', start: 'top 80%' } })
   }, { scope: root })
 
   // Pointer parallax on the bowl (desktop)
@@ -120,11 +150,17 @@ export function RamenShowcase() {
         ))}
         <div aria-hidden className="absolute inset-0 opacity-[.07] mix-blend-overlay [background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence baseFrequency=%22.9%22/></filter><rect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22/></svg>')]" />
         <Steam />
-        {ingredients.map((g, i) => (
-          <div key={i} className={`rm-ing pointer-events-none absolute z-0 will-change-transform drop-shadow-[0_18px_22px_rgba(0,0,0,.45)] ${parseFloat(g.y) >= 40 ? 'max-lg:hidden' : ''}`} data-d={g.d} style={{ left: `clamp(${edge(g)}px, ${g.x}, calc(100% - ${edge(g)}px))`, top: `clamp(${edge(g) + 76}px, ${g.y}, calc(100% - ${edge(g) + 8}px))`, width: g.s, height: g.s, margin: `${-g.s / 2}px 0 0 ${-g.s / 2}px` }}>
-            <div className="h-full w-full [animation:bob_5s_ease-in-out_infinite]" style={{ animationDelay: `${-i * 0.7}s` }}><Ingredient k={g.k} /></div>
-          </div>
-        ))}
+        {ingredients.map((g, i) => {
+          // phones: the small static spot; desktop: the drifting one
+          const { x, y, s: size } = mobile ? g.m : g
+          const e = edge(size, mobile ? 0 : g.d)
+          return (
+            <div key={i} className={`rm-ing pointer-events-none absolute z-0 ${mobile ? 'drop-shadow-[0_8px_10px_rgba(0,0,0,.4)]' : 'will-change-transform drop-shadow-[0_18px_22px_rgba(0,0,0,.45)]'}`} data-d={g.d}
+              style={{ left: `clamp(${e}px, ${x}, calc(100% - ${e}px))`, top: `clamp(${e + 76}px, ${y}, calc(100% - ${e + 8}px))`, width: size, height: size, margin: `${-size / 2}px 0 0 ${-size / 2}px` }}>
+              <div className={`h-full w-full ${mobile ? '' : '[animation:bob_5s_ease-in-out_infinite]'}`} style={{ animationDelay: `${-i * 0.7}s` }}><Ingredient k={g.k} /></div>
+            </div>
+          )
+        })}
 
         <div className="wrap relative z-10 grid h-full items-center gap-6 pt-20 pb-24 lg:pb-0 lg:grid-cols-[1fr_minmax(0,1.15fr)]">
           {/* text */}
