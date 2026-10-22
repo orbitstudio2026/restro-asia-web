@@ -4,16 +4,16 @@ import { useGSAP } from '@gsap/react'
 import { reduced } from '../lib/motion'
 import { asset } from '../lib/asset'
 
-// All Higgsfield-generated (public/gen)
+// The restaurant's own photographs, retouched with Higgsfield (public/gen/gal-*)
 const shots = [
-  ['gal-interior', 'Lantern-lit dining room', 'col-span-2 md:col-span-7 md:row-span-2'],
-  ['gal-dumplings', 'Dragon pockets', 'md:col-span-5'],
-  ['gal-mojito', 'Sapphire mojito', 'md:col-span-5 md:row-span-2'],
-  ['ramen-kimchi', 'Kimchi ramen', 'md:col-span-4 md:row-span-2 !bg-lacquer [&_img]:object-contain [&_img]:p-6'],
-  ['gal-plating', 'Plated to order', 'md:col-span-3 md:row-span-2'],
-  ['gal-padthai', 'Pad thai noodles', 'md:col-span-4'],
-  ['gal-potrice', 'Clay pot rice', 'md:col-span-5'],
-  ['menu-noodles', 'Wok-fired hakka', 'md:col-span-4'],
+  ['gal-dumpling-platter', 'Steamed dumplings', 'col-span-2 md:col-span-7 md:row-span-2'],
+  ['gal-sushi-line', 'Sushi rolls', 'md:col-span-5'],
+  ['gal-pineapple-cooler', 'Pineapple cooler', 'md:col-span-5 md:row-span-2'],
+  ['gal-table-spread', 'The full spread', 'md:col-span-4 md:row-span-2'],
+  ['gal-sushi-ramen', 'Sushi & ramen', 'md:col-span-3 md:row-span-2'],
+  ['gal-dumplings', 'Fried dumplings', 'md:col-span-4'],
+  ['gal-uramaki', 'Uramaki', 'md:col-span-5'],
+  ['gal-tofu-ramen', 'Tofu ramen', 'md:col-span-4'],
 ]
 
 export function Gallery() {

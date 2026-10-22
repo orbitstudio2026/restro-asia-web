@@ -58,8 +58,8 @@ export function Hero({ ready }: { ready: boolean }) {
           <div className="hero-arch arch aspect-[4/5] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,.6)]" data-cursor="Ramen">
             {/* Higgsfield cinemagraph (steam, noodle sway, lantern flicker); the photo is its poster and the reduced-motion fallback */}
             {still
-              ? <img src={asset('gen/hero-ramen.webp')} alt="Steaming vegetarian ramen with chopsticks lifting noodles" className="hero-media h-[115%] w-full object-cover" fetchPriority="high" />
-              : <video className="hero-media h-[115%] w-full object-cover" poster={asset('gen/hero-ramen.webp')} autoPlay muted loop playsInline preload="auto" aria-label="Steam rising from a vegetarian ramen bowl as chopsticks lift the noodles">
+              ? <img src={asset('gen/hero-ramen.webp')} alt="Restro~Asia ramen with crispy spring rolls, corn and bok choy" className="hero-media h-[115%] w-full object-cover" fetchPriority="high" />
+              : <video className="hero-media h-[115%] w-full object-cover" poster={asset('gen/hero-ramen.webp')} autoPlay muted loop playsInline preload="auto" aria-label="Steam rising from a Restro~Asia ramen bowl with crispy spring rolls">
                   <source src={asset('gen/hero-ramen.webm')} type="video/webm" />
                   <source src={asset('gen/hero-ramen.mp4')} type="video/mp4" />
                 </video>}
