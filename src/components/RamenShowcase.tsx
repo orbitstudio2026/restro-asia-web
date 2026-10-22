@@ -7,6 +7,7 @@ import { ramens, categories } from '../data/menu'
 import { waLink } from './Nav'
 import { Magnetic } from './Magnetic'
 import { asset } from '../lib/asset'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 import { MaskButton } from './ui/mask-button'
 
 /** Rising steam / ember particles. Pauses when offscreen. */
@@ -45,16 +46,16 @@ function Steam() {
 // screen, and the scroll move is a small drift that returns, so nothing ever leaves the view.
 // Left-side items sit above the text; right-side items sit above or below the progress list.
 // On mobile the text sits low, so items centred at 40% or lower are hidden there.
-// Phones (`m`): smaller, static, scattered around the bowl and the screen edges, clear of the text (≈52–80% down).
+// Phones: the same 8 items sit small and static on an even ring just behind the bowl rim (see MobileRing).
 const ingredients = [
-  { x: '8%', y: '17%', d: 1.2, s: 96, k: 'chilli', m: { x: '10%', y: '14%', s: 44 } },
-  { x: '30%', y: '15%', d: 0.6, s: 56, k: 'shiitake', m: { x: '90%', y: '13%', s: 32 } },
-  { x: '50%', y: '14%', d: 0.9, s: 66, k: 'chilli', m: { x: '94%', y: '38%', s: 34 } },
-  { x: '86%', y: '17%', d: 0.8, s: 84, k: 'tofu', m: { x: '7%', y: '44%', s: 36 } },
-  { x: '93%', y: '33%', d: 1.1, s: 60, k: 'shiitake', m: { x: '52%', y: '10%', s: 26 } },
-  { x: '88%', y: '78%', d: 1.4, s: 118, k: 'bokchoy', m: { x: '88%', y: '87%', s: 48 } },
-  { x: '68%', y: '86%', d: 1.0, s: 90, k: 'corn', m: { x: '6%', y: '28%', s: 38 } },
-  { x: '48%', y: '84%', d: 0.7, s: 54, k: 'anise', m: { x: '58%', y: '89%', s: 28 } },
+  { x: '8%', y: '17%', d: 1.2, s: 96, k: 'chilli' },
+  { x: '30%', y: '15%', d: 0.6, s: 56, k: 'shiitake' },
+  { x: '50%', y: '14%', d: 0.9, s: 66, k: 'chilli' },
+  { x: '86%', y: '17%', d: 0.8, s: 84, k: 'tofu' },
+  { x: '93%', y: '33%', d: 1.1, s: 60, k: 'shiitake' },
+  { x: '88%', y: '78%', d: 1.4, s: 118, k: 'bokchoy' },
+  { x: '68%', y: '86%', d: 1.0, s: 90, k: 'corn' },
+  { x: '48%', y: '84%', d: 0.7, s: 54, k: 'anise' },
 ]
 const MOBILE = '(max-width: 1023px)'
 // distance to keep from the screen edge: half the item rotated (√2 ≈ 1.42 → 0.71·size) plus its drift
@@ -66,16 +67,38 @@ function Ingredient({ k }: { k: string }) {
 const fusion = categories[0].dishes.slice(0, 5)
 const authentic = categories[0].dishes.slice(5)
 
+// Phones: tiny ingredients evenly spaced (every 45°) on an ellipse just outside the bowl rim, drawn under
+// the bowl so they read as background. Sizes ≈ 1/14 of the bowl. Static — nothing moves on phones.
+const RING_SIZES = [24, 18, 22, 20, 26, 19, 23, 21]
+function MobileRing() {
+  return (
+    <>
+      {ingredients.map((g, i) => {
+        const a = ((i * 45 + 22.5) * Math.PI) / 180
+        const size = RING_SIZES[i]
+        return (
+          <div key={i} aria-hidden className="pointer-events-none absolute z-0 opacity-85 drop-shadow-[0_6px_8px_rgba(0,0,0,.45)]"
+            style={{ left: `${50 + 52 * Math.cos(a)}%`, top: `${50 + 56 * Math.sin(a)}%`, width: size, height: size, transform: 'translate(-50%, -50%)' }}>
+            <Ingredient k={g.k} />
+          </div>
+        )
+      })}
+    </>
+  )
+}
+
 export function RamenShowcase() {
   const root = useRef<HTMLElement>(null)
   const [active, setActive] = useState(0)
-  const [mobile] = useState(() => typeof window !== 'undefined' && window.matchMedia(MOBILE).matches)
+  // live breakpoint: crossing it rebuilds the scene (useGSAP below depends on it)
+  const mobile = useMediaQuery(MOBILE)
   const n = ramens.length
 
   useGSAP(() => {
     const steps = n - 1
     const total = steps + 0.6
     const touch = window.matchMedia('(pointer: coarse)').matches
+    setActive(0)
     gsap.set(ramens.slice(1).map((_, i) => `.rm-t-${i + 1} .rm-l`).join(','), { yPercent: 110 })
     gsap.set(ramens.slice(1).map((_, i) => `.rm-bg-${i + 1}`).join(','), { autoAlpha: 0 })
     if (!reduced()) gsap.from('.rm-row', { y: 30, autoAlpha: 0, stagger: 0.05, duration: 0.9, ease: 'expo.out', scrollTrigger: { trigger: '.rm-cols', start: 'top 80%' } })
@@ -83,6 +106,7 @@ export function RamenShowcase() {
     if (mobile) {
       // Phones: a scrubbed timeline freezes half-way when the thumb stops, cutting the text in two.
       // Here scroll only chooses which bowl is showing; every change is a short, complete animation.
+      gsap.set('.rm-tilt', { clearProps: 'transform' })
       let cur = 0
       const go = (i: number) => {
         if (i === cur) return
@@ -127,7 +151,7 @@ export function RamenShowcase() {
         .to(`.rm-t-${i - 1} .rm-l`, { yPercent: -110, duration: 0.4, stagger: 0.05, ease: 'power2.in' }, at)
         .fromTo(`.rm-t-${i} .rm-l`, { yPercent: 110 }, { yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, at + 0.35)
     }
-  }, { scope: root })
+  }, { scope: root, dependencies: [mobile], revertOnUpdate: true })
 
   // Pointer parallax on the bowl (desktop)
   const tiltTo = useRef<((v: number) => void)[]>([])
@@ -151,14 +175,13 @@ export function RamenShowcase() {
         ))}
         <div aria-hidden className="absolute inset-0 opacity-[.07] mix-blend-overlay [background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><filter id=%22n%22><feTurbulence baseFrequency=%22.9%22/></filter><rect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22/></svg>')]" />
         <Steam />
-        {ingredients.map((g, i) => {
-          // phones: the small static spot; desktop: the drifting one
-          const { x, y, s: size } = mobile ? g.m : g
-          const e = edge(size, mobile ? 0 : g.d)
+        {!mobile && ingredients.map((g, i) => {
+          const { x, y, s: size } = g
+          const e = edge(size, g.d)
           return (
-            <div key={i} className={`rm-ing pointer-events-none absolute z-0 ${mobile ? 'drop-shadow-[0_8px_10px_rgba(0,0,0,.4)]' : 'will-change-transform drop-shadow-[0_18px_22px_rgba(0,0,0,.45)]'}`} data-d={g.d}
+            <div key={i} className="rm-ing pointer-events-none absolute z-0 will-change-transform drop-shadow-[0_18px_22px_rgba(0,0,0,.45)]" data-d={g.d}
               style={{ left: `clamp(${e}px, ${x}, calc(100% - ${e}px))`, top: `clamp(${e + 76}px, ${y}, calc(100% - ${e + 8}px))`, width: size, height: size, margin: `${-size / 2}px 0 0 ${-size / 2}px` }}>
-              <div className={`h-full w-full ${mobile ? '' : '[animation:bob_5s_ease-in-out_infinite]'}`} style={{ animationDelay: `${-i * 0.7}s` }}><Ingredient k={g.k} /></div>
+              <div className="h-full w-full [animation:bob_5s_ease-in-out_infinite]" style={{ animationDelay: `${-i * 0.7}s` }}><Ingredient k={g.k} /></div>
             </div>
           )
         })}
@@ -183,6 +206,7 @@ export function RamenShowcase() {
           {/* bowl */}
           <div className="order-1 mx-auto w-[min(84vmin,660px)] [perspective:1200px] lg:order-2" data-cursor="Slurp">
             <div className="rm-tilt relative aspect-square">
+              {mobile && <MobileRing />}
               <div className="rm-spin absolute inset-0 will-change-transform">
                 {ramens.map((r, i) => (
                   <img key={r.id} src={r.img} alt={i === active ? r.name : ''} className={`rm-bowl-${i} absolute inset-0 h-full w-full object-contain drop-shadow-[0_40px_50px_rgba(0,0,0,.55)] ${i ? 'invisible opacity-0' : ''}`} />

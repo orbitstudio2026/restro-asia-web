@@ -25,12 +25,15 @@ export function Hero({ ready }: { ready: boolean }) {
       .from('.hero-fade', { y: 24, autoAlpha: 0, duration: 1, stagger: 0.08 }, '-=0.9')
       .from('.hero-arch', { clipPath: 'inset(100% 0 0 0 round 999px 999px 24px 24px)', scale: 1.15, duration: 1.6 }, 0.1)
       .from('.hero-float', { scale: 0, autoAlpha: 0, duration: 1.2, stagger: 0.12, ease: 'back.out(1.6)' }, 0.6)
-    // phones: no scroll parallax or bobbing — the photos and badge stay where they land
-    if (window.matchMedia('(max-width: 1023px)').matches) return
-    gsap.to('.hero-arch .hero-media', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true } })
-    gsap.utils.toArray<HTMLElement>('.hero-float').forEach((el, i) => {
-      gsap.to(el, { yPercent: -60 - i * 40, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true } })
-      gsap.to(el.firstElementChild, { y: 10, duration: 2.6 + i, yoyo: true, repeat: -1, ease: 'sine.inOut' })
+    // Desktop only, and live: when the viewport drops below 1024px (phone, rotate, DevTools device mode)
+    // GSAP reverts these tweens, so the photo and the three circles sit frozen where they landed.
+    const mm = gsap.matchMedia()
+    mm.add('(min-width: 1024px)', () => {
+      gsap.to('.hero-arch .hero-media', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true } })
+      gsap.utils.toArray<HTMLElement>('.hero-float').forEach((el, i) => {
+        gsap.to(el, { yPercent: -60 - i * 40, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true } })
+        gsap.to(el.firstElementChild, { y: 10, duration: 2.6 + i, yoyo: true, repeat: -1, ease: 'sine.inOut' })
+      })
     })
   }, { scope: root, dependencies: [ready] })
 
