@@ -35,7 +35,6 @@ export function Nav() {
           </nav>
           <div className="ml-auto hidden items-center gap-3 md:flex lg:ml-0">
             <Magnetic><MaskButton href={MENU_PDF} download variant="cream" size="sm">Menu PDF</MaskButton></Magnetic>
-            <Magnetic><MaskButton href={waLink('Hi Restro~Asia! I would like to reserve a table.')} target="_blank" rel="noopener" variant="primary" size="sm">Reserve</MaskButton></Magnetic>
           </div>
           <button onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} data-burger className="ml-auto grid h-12 w-12 place-items-center rounded-full border border-cream/30 lg:hidden md:ml-0">
             <span className={`block h-px w-5 bg-cream transition-transform ${open ? 'translate-y-[3px] rotate-45' : '-translate-y-[3px]'}`} />

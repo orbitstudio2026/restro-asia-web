@@ -39,7 +39,7 @@ export function Hero({ ready }: { ready: boolean }) {
       <div aria-hidden className="absolute inset-0 bg-[radial-gradient(900px_600px_at_75%_35%,rgba(201,40,45,.55),transparent_60%),radial-gradient(700px_500px_at_5%_95%,rgba(217,164,65,.18),transparent_60%)]" />
       <div className="wrap relative grid min-h-[100svh] items-center gap-12 pt-32 pb-16 lg:grid-cols-[1.15fr_1fr]">
         <div>
-          <p className="hero-fade label mb-8 text-gold">Surat · Flavours of Indo Chinese &amp; Beyond</p>
+          <p className="hero-fade label mb-8 text-gold">Flavours of Indo Chinese &amp; Beyond</p>
           <h1 className="text-[clamp(2.9rem,6.8vw,7.2rem)] leading-[.98]" aria-label="Making food tasty.">
             <span className="block overflow-hidden pb-2" aria-hidden>{split('Making')}</span>
             <span className="block overflow-hidden pb-2" aria-hidden>{split('food ')}<em className="text-gold">{split('tasty.')}</em></span>
