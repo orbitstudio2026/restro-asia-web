@@ -9,7 +9,10 @@ import { scrollToId } from '../hooks/useLenis'
 import { asset } from '../lib/asset'
 import { MaskButton } from './ui/mask-button'
 
-const split = (s: string) => s.split('').map((c, i) => <span key={i} className="ch inline-block will-change-transform">{c === ' ' ? ' ' : c}</span>)
+// letters animate one by one, but each word is a no-wrap group so a line can never break inside a word
+const split = (s: string) => s.split(/(\s+)/).filter(Boolean).map((w, i) => /^\s+$/.test(w)
+  ? <span key={i}> </span>
+  : <span key={i} className="inline-block whitespace-nowrap">{w.split('').map((c, j) => <span key={j} className="ch inline-block will-change-transform">{c}</span>)}</span>)
 
 export function Hero({ ready }: { ready: boolean }) {
   const root = useRef<HTMLElement>(null)
@@ -37,7 +40,7 @@ export function Hero({ ready }: { ready: boolean }) {
       <div className="wrap relative grid min-h-[100svh] items-center gap-12 pt-32 pb-16 lg:grid-cols-[1.15fr_1fr]">
         <div>
           <p className="hero-fade label mb-8 text-gold">Surat · Flavours of Indo Chinese &amp; Beyond</p>
-          <h1 className="text-[clamp(3.2rem,8.6vw,8.5rem)] leading-[.98]" aria-label="Making food tasty.">
+          <h1 className="text-[clamp(2.9rem,6.8vw,7.2rem)] leading-[.98]" aria-label="Making food tasty.">
             <span className="block overflow-hidden pb-2" aria-hidden>{split('Making')}</span>
             <span className="block overflow-hidden pb-2" aria-hidden>{split('food ')}<em className="text-gold">{split('tasty.')}</em></span>
           </h1>
