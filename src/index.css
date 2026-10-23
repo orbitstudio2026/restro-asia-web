@@ -12,7 +12,7 @@
   --color-ink-60: #6B5753;
 
   /* two typefaces only: brush display + text */
-  --font-display: "Permanent Marker", "Manrope", cursive;
+  --font-display: "Belleza", "Manrope", system-ui, sans-serif;
   --font-body: "Manrope", system-ui, sans-serif;
   --font-label: "Manrope", system-ui, sans-serif;
 
@@ -37,8 +37,8 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
-/* the brush face has one weight: never let the browser fake bold or italic it */
-h1, h2, h3, h4, .font-display { font-family: var(--font-display); font-weight: 400; font-synthesis: none; letter-spacing: .01em; line-height: 1.08; }
+/* Belleza has one weight: never fake bold/italic it. Headings are set in capitals, like the reference. */
+h1, h2, h3, h4, .font-display { font-family: var(--font-display); font-weight: 400; font-synthesis: none; text-transform: uppercase; letter-spacing: .015em; line-height: 1.05; }
 :is(h1, h2, h3, h4) em { font-style: normal; }
 img { display: block; max-width: 100%; }
 :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
