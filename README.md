@@ -13,7 +13,7 @@ npm run dev
 
 Build for production with `npm run build` (output in `dist/`).
 
-**Live preview:** https://orbitstudio2026.github.io/restro-asia-web/ — rebuild with `npm run build:pages` and publish `dist/` to the `gh-pages` branch.
+**Live site:** https://restroasiaofficial.com (GitHub Pages, custom domain in `public/CNAME`). Rebuild with `npm run build:pages` and publish `dist/` to the `gh-pages` branch.
 
 ## What's inside
 

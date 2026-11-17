@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "build:pages": "GH_PAGES=1 tsc -b && GH_PAGES=1 vite build && touch dist/.nojekyll"
+    "build:pages": "tsc -b && vite build && touch dist/.nojekyll"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
