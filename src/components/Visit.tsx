@@ -7,15 +7,16 @@ import { Magnetic } from './Magnetic'
 import { MENU_PDF } from '../data/menu'
 import { asset } from '../lib/asset'
 import { MaskButton } from './ui/mask-button'
+import { LINKS } from '../data/links'
 
 // Vesu address confirmed on the Google Maps listing.
 const ADDRESS = 'G3 Western Business Park, Opp. S.D. Jain School, Vesu, Surat'
 const channels = [
-  ['Google Maps', 'https://www.google.com/maps/place/Restro+Asia/@21.1507567,72.7731751,17z'],
-  ['Swiggy', 'https://www.swiggy.com/menu/780093?source=sharing'],
-  ['Zomato', 'https://link.zomato.com/xqzv/rshare?id=57340316305631f2'],
-  ['Instagram', 'https://www.instagram.com/restroasia_official/'],
-  ['Facebook', 'https://www.facebook.com/profile.php?id=61551257160291'],
+  ['Google Maps', LINKS.google],
+  ['Swiggy', LINKS.swiggy],
+  ['Zomato', LINKS.zomato],
+  ['Instagram', LINKS.instagram],
+  ['Facebook', LINKS.facebook],
 ]
 
 export function Visit() {

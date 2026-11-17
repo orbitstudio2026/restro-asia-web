@@ -3,9 +3,9 @@ import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { reduced } from '../lib/motion'
 import { reviews, mentions, GOOGLE_RATING, type Review } from '../data/reviews'
+import { LINKS } from '../data/links'
 import { asset } from '../lib/asset'
 
-const GOOGLE_URL = 'https://www.google.com/maps/place/Restro+Asia/@21.1507567,72.7731751,17z'
 
 function Card({ r }: { r: Review }) {
   return (
@@ -39,12 +39,12 @@ export function Reviews() {
     <section id="reviews" ref={root} className="relative overflow-hidden bg-lacquer bg-cover bg-center py-[clamp(72px,12vw,170px)] text-cream" style={{ backgroundImage: `url(${asset('gen/bg-lacquer.webp')})` }}>
       <div className="rv-head wrap mb-14 flex flex-wrap items-end justify-between gap-6 max-sm:mb-8 max-sm:gap-4">
         <h2 className="text-[clamp(2.6rem,6vw,5.5rem)] max-sm:text-[2.1rem]">Guests <em className="text-gold">say</em> it best.</h2>
-        <a href={GOOGLE_URL} target="_blank" rel="noopener" className="flex items-center gap-4 rounded-full border border-cream/20 py-2 pr-6 pl-2 transition-colors hover:border-gold max-sm:gap-3 max-sm:py-1.5 max-sm:pr-4 max-sm:pl-1.5">
+        <a href={LINKS.google} target="_blank" rel="noopener" aria-label="Restro~Asia on Google Maps: rated 4.6 from 396 reviews" className="flex items-center gap-4 rounded-full border border-cream/20 py-2 pr-6 pl-2 transition-colors hover:border-gold max-sm:gap-3 max-sm:py-1.5 max-sm:pr-4 max-sm:pl-1.5">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-gold font-body text-lg font-extrabold text-ink max-sm:h-9 max-sm:w-9 max-sm:text-sm">{GOOGLE_RATING.score}</span>
           <span><span className="block font-semibold text-cream max-sm:text-sm">★ rated on Google</span><span className="label text-cream/70 max-sm:!text-[.65rem]">{GOOGLE_RATING.count} Google reviews</span></span>
         </a>
       </div>
-      <div className="rv-rows grid gap-8 max-sm:gap-5">
+      <div className="rv-rows grid grid-cols-[minmax(0,1fr)] gap-8 max-sm:gap-5">
         <Marquee seconds={60}>{reviews.map((r) => <Card key={r.name} r={r} />)}</Marquee>
         <div>
           <p className="label wrap mb-4 text-gold">What guests mention most on Google</p>
