@@ -24,7 +24,7 @@ export function Nav() {
   return (
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color,padding] duration-500 ease-out-expo ${hidden && !open ? '-translate-y-full' : ''} ${scrolled ? 'bg-ink/80 backdrop-blur-xl py-3' : 'py-6'}`}>
-        <div className="wrap flex items-center gap-8 text-cream">
+        <div className="wrap flex items-center gap-3 text-cream md:gap-8">
           <a href="#top" onClick={go('#top')} className="shrink-0" aria-label="Restro~Asia home"><Logo className={`transition-[width] duration-500 ease-out-expo ${scrolled ? 'w-[104px]' : 'w-[132px] md:w-[150px]'}`} /></a>
           <nav className="mx-auto hidden gap-7 lg:flex" aria-label="Sections">
             {links.map(([h, l]) => (
@@ -33,10 +33,10 @@ export function Nav() {
               </a>
             ))}
           </nav>
-          <div className="ml-auto hidden items-center gap-3 md:flex lg:ml-0">
+          <div className="ml-auto flex items-center gap-3 lg:ml-0">
             <Magnetic><MaskButton href={MENU_PDF} download variant="cream" size="sm">Menu PDF</MaskButton></Magnetic>
           </div>
-          <button onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} data-burger className="ml-auto grid h-12 w-12 place-items-center rounded-full border border-cream/30 lg:hidden md:ml-0">
+          <button onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} data-burger className="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-cream/30 lg:hidden">
             <span className={`block h-px w-5 bg-cream transition-transform ${open ? 'translate-y-[3px] rotate-45' : '-translate-y-[3px]'}`} />
             <span className={`absolute block h-px w-5 bg-cream transition-transform ${open ? '-rotate-45' : 'translate-y-[3px]'}`} />
           </button>
