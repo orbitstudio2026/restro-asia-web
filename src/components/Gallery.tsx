@@ -6,15 +6,14 @@ import { asset } from '../lib/asset'
 import { LINKS } from '../data/links'
 
 // The restaurant's own photographs, retouched with Higgsfield (public/gen/gal-*)
+// Order matters with grid-flow-dense: desktop = [portrait 4 | landscape 8] then [landscape 5 / landscape 5 | portrait 3 | portrait 4]
 const shots = [
-  ['gal-dumpling-platter', 'Steamed dumplings', 'col-span-2 md:col-span-7 md:row-span-2'],
-  ['gal-sushi-line', 'Sushi rolls', 'md:col-span-5'],
-  ['gal-pineapple-cooler', 'Pineapple cooler', 'md:col-span-5 md:row-span-2'],
-  ['gal-table-spread', 'The full spread', 'md:col-span-4 md:row-span-2'],
-  ['gal-sushi-ramen', 'Sushi & ramen', 'md:col-span-3 md:row-span-2'],
-  ['gal-dumplings', 'Fried dumplings', 'md:col-span-4'],
-  ['gal-uramaki', 'Uramaki', 'md:col-span-5'],
-  ['gal-tofu-ramen', 'Tofu ramen', 'md:col-span-4'],
+  ['gal-wok-noodles', 'Wok-tossed noodles', 'md:col-span-4 md:row-span-2'],
+  ['gal-spicy-ramen', 'Spicy ramen', 'col-span-2 md:col-span-8 md:row-span-2'],
+  ['gal-green-rice', 'Green rice bowl', 'col-span-2 md:col-span-5'],
+  ['gal-curry-noodles', 'Coconut curry noodles', 'md:col-span-3 md:row-span-2'],
+  ['gal-curry-soup', 'Coconut curry soup', 'col-span-2 row-span-2 md:col-span-4'],
+  ['gal-crispy-ramen', 'Crispy ramen bowl', 'col-span-2 md:col-span-5'],
 ]
 
 export function Gallery() {
