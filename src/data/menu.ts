@@ -104,7 +104,8 @@ export const categories: Category[] = [
 
 export const ramens = [
   { id: 'miso', name: 'Miso Ramen', mood: 'Savory miso broth, shiitake, sweet corn and a kick of chili oil.', img: asset('gen/ramen-miso.webp'), from: '#3E0C0F', to: '#B3262B', glow: '#E7A04A' },
-  { id: 'kimchi', name: 'Kimchi Ramen', mood: 'Gochujang heat, tangy kimchi, a bold and zesty broth.', img: asset('gen/ramen-kimchi.webp'), from: '#06190F', to: '#2F6B4E', glow: '#7FB08A' },
-  { id: 'kurume', name: 'Kurume Coconut Ramen', mood: 'Silky coconut broth, mushroom paneer and gentle spice.', img: asset('gen/ramen-kurume.webp'), from: '#3A2606', to: '#C8902C', glow: '#FFE7A8' },
-  { id: 'laksa', name: 'Veg Laksa Ramen', mood: 'Our most indulgent bowl — tangy, spicy, finished with momo nori.', img: asset('gen/ramen-laksa.webp'), from: '#070505', to: '#3B2C29', glow: '#8C5A3C' },
+  // Names matched to the photos by the client (Nov 2026); descriptions from the menu
+  { id: 'chilli-garlic', name: 'Chilli Garlic Ramen', mood: 'Mushrooms, bok choy & bell peppers tossed in a spicy garlic-chilli sauce.', img: asset('gen/ramen-chilli-garlic.webp'), from: '#06190F', to: '#2F6B4E', glow: '#7FB08A' },
+  { id: 'laksa', name: 'Veg Laksa Ramen', mood: 'Our most indulgent bowl — tangy, spicy, finished with momo nori.', img: asset('gen/ramen-laksa.webp'), from: '#3A2606', to: '#C8902C', glow: '#FFE7A8' },
+  { id: 'kimchionara', name: 'Kimchionara Ramen', mood: 'Fresh kimchi, gochujang veggies and a bold, zesty vegetable broth.', img: asset('gen/ramen-kimchionara.webp'), from: '#070505', to: '#3B2C29', glow: '#8C5A3C' },
 ]
