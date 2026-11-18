@@ -4,28 +4,37 @@ import { useGSAP } from '@gsap/react'
 import { reduced } from '../lib/motion'
 import { asset } from '../lib/asset'
 import { LINKS } from '../data/links'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
-// The restaurant's own photographs, retouched with Higgsfield (public/gen/gal-*)
-// Order matters with grid-flow-dense: desktop = [portrait 4 | landscape 8] then [landscape 5 / landscape 5 | portrait 3 | portrait 4]
-const shots = [
-  ['gal-wok-noodles', 'Wok-tossed noodles', 'md:col-span-4 md:row-span-2'],
-  ['gal-spicy-ramen', 'Spicy ramen', 'col-span-2 md:col-span-8 md:row-span-2'],
-  ['gal-green-rice', 'Green rice bowl', 'col-span-2 md:col-span-5'],
-  ['gal-curry-noodles', 'Coconut curry noodles', 'md:col-span-3 md:row-span-2'],
-  ['gal-curry-soup', 'Coconut curry soup', 'col-span-2 row-span-2 md:col-span-4'],
-  ['gal-crispy-ramen', 'Crispy ramen bowl', 'col-span-2 md:col-span-5'],
-]
+// The restaurant's own photographs, retouched with Higgsfield (public/gen/gal-*).
+// No photo is ever cropped: each tile takes its photo's exact aspect ratio, and tiles in a row grow in
+// proportion to that ratio (flex-grow = ratio x100, so a lone tile still fills its row), so every photo in a row ends up the same height, shown whole.
+const P = 1073 / 1600 // portrait files
+const L = 1600 / 1073 // landscape files
+type Shot = { f: string; t: string; r: number }
+const S: Record<string, Shot> = {
+  wok: { f: 'gal-wok-noodles', t: 'Wok-tossed noodles', r: P },
+  spicy: { f: 'gal-spicy-ramen', t: 'Spicy ramen', r: L },
+  green: { f: 'gal-green-rice', t: 'Green rice bowl', r: L },
+  curry: { f: 'gal-curry-noodles', t: 'Coconut curry noodles', r: P },
+  soup: { f: 'gal-curry-soup', t: 'Coconut curry soup', r: P },
+  crispy: { f: 'gal-crispy-ramen', t: 'Crispy ramen bowl', r: L },
+}
+const DESKTOP_ROWS = [[S.wok, S.spicy, S.curry], [S.green, S.soup, S.crispy]]
+const PHONE_ROWS = [[S.wok, S.curry], [S.spicy], [S.soup], [S.green], [S.crispy]]
 
 export function Gallery() {
   const root = useRef<HTMLElement>(null)
+  const phone = useMediaQuery('(max-width: 767px)')
+  const rows = phone ? PHONE_ROWS : DESKTOP_ROWS
   useGSAP(() => {
     if (reduced()) return
+    // reveal only: the clip ends at 0% so the full photo is visible, and the image itself is never scaled
     gsap.utils.toArray<HTMLElement>('.gl-item').forEach((el) => {
-      gsap.fromTo(el, { clipPath: 'inset(18% 18% 18% 18% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 28px)', ease: 'expo.out', duration: 1.4, scrollTrigger: { trigger: el, start: 'top 88%' } })
-      gsap.fromTo(el.querySelector('img'), { yPercent: -8, scale: 1.18 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true } })
+      gsap.fromTo(el, { clipPath: 'inset(14% 14% 14% 14% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 28px)', ease: 'expo.out', duration: 1.4, scrollTrigger: { trigger: el, start: 'top 90%' } })
     })
     gsap.from('.gl-head > *', { y: 40, autoAlpha: 0, stagger: 0.08, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: root.current, start: 'top 88%' } })
-  }, { scope: root })
+  }, { scope: root, dependencies: [phone], revertOnUpdate: true })
   return (
     <section id="gallery" ref={root} className="bg-ink py-[clamp(72px,12vw,170px)] text-cream">
       <div className="wrap">
@@ -33,12 +42,16 @@ export function Gallery() {
           <h2 className="text-[clamp(2.6rem,6vw,5.5rem)]">Good food, <em className="text-gold">good mood.</em></h2>
           <a href={LINKS.instagram} target="_blank" rel="noopener" className="label text-gold underline underline-offset-8">@restroasia_official</a>
         </div>
-        <div className="grid grid-flow-dense auto-rows-[220px] grid-cols-2 gap-4 md:grid-cols-12 md:auto-rows-[240px]">
-          {shots.map(([f, t, cls]) => (
-            <figure key={f} className={`gl-item group relative overflow-hidden rounded-[28px] bg-ink ${cls}`} data-cursor="View">
-              <img src={asset(`gen/${f}.webp`)} alt={t} loading="lazy" className="h-full w-full object-cover transition-[filter] duration-700 group-hover:saturate-125" />
-              <figcaption className="label absolute bottom-4 left-4 translate-y-2 rounded-full bg-ink/60 px-3 py-2 text-cream opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-y-0 group-hover:opacity-100">{t}</figcaption>
-            </figure>
+        <div className="flex flex-col gap-3 md:gap-4">
+          {rows.map((row, i) => (
+            <div key={i} className="flex gap-3 md:gap-4">
+              {row.map(({ f, t, r }) => (
+                <figure key={f} style={{ flex: `${r * 100} 1 0%`, aspectRatio: r }} className="gl-item group relative min-w-0 overflow-hidden rounded-[20px] bg-ink md:rounded-[28px]" data-cursor="View">
+                  <img src={asset(`gen/${f}.webp`)} alt={t} loading="lazy" className="block h-full w-full object-contain transition-[filter] duration-700 group-hover:saturate-125" />
+                  <figcaption className="label absolute bottom-4 left-4 translate-y-2 rounded-full bg-ink/60 px-3 py-2 text-cream opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-y-0 group-hover:opacity-100">{t}</figcaption>
+                </figure>
+              ))}
+            </div>
           ))}
         </div>
       </div>
