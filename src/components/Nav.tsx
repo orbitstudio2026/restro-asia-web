@@ -6,7 +6,7 @@ import { MENU_PDF, WHATSAPP } from '../data/menu'
 import { MaskButton } from './ui/mask-button'
 
 export const links = [
-  ['#story', 'Story'], ['#ramen', 'Ramen'], ['#menu', 'Menu'], ['#gallery', 'Gallery'], ['#founder', 'Founder'], ['#reviews', 'Reviews'], ['#visit', 'Visit'],
+  ['#story', 'Story'], ['#ramen', 'Ramen'], ['#menu', 'Menu'], ['#gallery', 'Gallery'], ['#owner', 'Owner'], ['#reviews', 'Reviews'], ['#visit', 'Visit'],
 ] as const
 
 export const waLink = (text: string) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`

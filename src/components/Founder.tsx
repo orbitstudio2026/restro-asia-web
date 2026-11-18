@@ -17,7 +17,7 @@ export function Founder() {
   }, { scope: root })
   const ph = (s: string, fallback: string) => s || fallback
   return (
-    <section id="founder" ref={root} className="relative overflow-hidden bg-cream py-[clamp(72px,12vw,170px)]">
+    <section id="owner" ref={root} className="relative overflow-hidden bg-cream py-[clamp(72px,12vw,170px)]">
       <div className="wrap grid items-center gap-16 lg:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)]">
         <div className="relative mx-auto w-full max-w-[460px]">
           <svg className="fd-frame pointer-events-none absolute -inset-4 z-10 h-[calc(100%+2rem)] w-[calc(100%+2rem)] text-vermilion" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden>
@@ -25,19 +25,19 @@ export function Founder() {
           </svg>
           <div className="fd-portrait arch relative aspect-[4/5] overflow-hidden bg-lacquer">
             {founder.photo
-              ? <img src={founder.photo} alt={`${founder.name}, founder of Restro~Asia`} className="absolute inset-x-0 -top-[5%] h-[110%] w-full object-cover object-center" />
-              : <div className="absolute inset-0 grid place-items-center text-gold"><div className="text-center"><Mark className="mx-auto w-28 opacity-80" /><p className="label mt-6 text-cream/60">Founder portrait</p></div></div>}
+              ? <img src={founder.photo} alt={`${founder.name}, owner of Restro~Asia`} className="absolute inset-x-0 -top-[5%] h-[110%] w-full object-cover object-center" />
+              : <div className="absolute inset-0 grid place-items-center text-gold"><div className="text-center"><Mark className="mx-auto w-28 opacity-80" /><p className="label mt-6 text-cream/60">Owner portrait</p></div></div>}
           </div>
         </div>
         <div className="fd-txt">
-          <p className="label text-vermilion">Meet the founder</p>
+          <p className="label text-vermilion">Meet the owner</p>
           <blockquote className="mt-6 text-[clamp(1.5rem,3vw,2.6rem)] font-semibold leading-[1.25] tracking-[-.01em]">
-            “{ph(founder.quote, 'Founder quote goes here — one line about why they started Restro~Asia.')}”
+            “{ph(founder.quote, 'Owner quote goes here — one line about why they started Restro~Asia.')}”
           </blockquote>
           {founder.story && <p className="mt-8 max-w-xl text-ink-60">{founder.story}</p>}
           <div className="mt-10 border-t border-ink/15 pt-8">
             <div>
-              <p className="font-display text-3xl">{ph(founder.name, 'Founder name')}</p>
+              <p className="font-display text-3xl">{ph(founder.name, 'Owner name')}</p>
               <p className="label mt-1 text-ink-60">{founder.role}{founder.yearOpened ? ` · Since ${founder.yearOpened}` : ''}</p>
             </div>
           </div>
