@@ -7,8 +7,8 @@ export function Cursor() {
   const [label, setLabel] = useState('')
   useEffect(() => {
     if (!window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)').matches) return
-    const x = gsap.quickTo(ring.current, 'x', { duration: 0.35, ease: 'power3' })
-    const y = gsap.quickTo(ring.current, 'y', { duration: 0.35, ease: 'power3' })
+    const x = gsap.quickTo(ring.current, 'x', { duration: 0.12, ease: 'power3' })
+    const y = gsap.quickTo(ring.current, 'y', { duration: 0.12, ease: 'power3' })
     let px = -100, py = -100
     const update = (el: Element | null) => {
       const t = el?.closest?.('[data-cursor]') as HTMLElement | null
